@@ -1,0 +1,293 @@
+/* Type Lab · Warp + Effects (drafting-table look: paper, ink, vermilion accent). */
+
+/* ── Warp tiles ── */
+.warp-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.warp-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 5px 0 4px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  background: var(--paper-pure);
+  color: var(--ink-2);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: border-color var(--d-1) var(--ease), background var(--d-1) var(--ease), color var(--d-1) var(--ease);
+}
+.warp-tile:hover {
+  border-color: var(--ink-3);
+  color: var(--ink);
+}
+.warp-tile:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+.warp-tile.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-pure);
+}
+.warp-tile.envelope {
+  border-style: dashed;
+}
+.warp-tile.envelope.on {
+  border-style: solid;
+}
+.warp-glyph {
+  width: 38px;
+  height: 22px;
+  overflow: visible;
+}
+.warp-glyph .wg-fill {
+  fill: currentColor;
+  opacity: 0.1;
+}
+.warp-glyph .wg-mesh {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.7;
+  opacity: 0.55;
+}
+.warp-glyph .wg-frame {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+.warp-tile.on .warp-glyph .wg-frame {
+  stroke: var(--accent);
+}
+.warp-tile.on .warp-glyph .wg-fill {
+  fill: var(--accent);
+  opacity: 0.22;
+}
+.warp-glyph .wg-node {
+  fill: var(--paper-pure);
+  stroke: currentColor;
+  stroke-width: 0.9;
+}
+
+/* ── Warp controls ── */
+.warp-row {
+  display: grid;
+  grid-template-columns: 54px 1fr 44px;
+  align-items: center;
+  gap: 8px;
+}
+.warp-row .num {
+  font-size: 12px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-2);
+}
+.warp-row input[type="range"] {
+  width: 100%;
+}
+.warp-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.warp-bar .grow {
+  flex: 1;
+}
+.warp-seg {
+  display: inline-flex;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  overflow: hidden;
+  background: var(--paper-pure);
+}
+.warp-seg button {
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.warp-seg button + button {
+  border-left: 1px solid var(--rule);
+}
+.warp-seg button.on {
+  background: var(--ink);
+  color: var(--paper-pure);
+}
+.warp-seg svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.warp-status {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.warp-status b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.warp-env-card {
+  border: 1px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: var(--r-1);
+  padding: 7px 8px;
+  display: grid;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.warp-env-card .warp-bar b {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ── Envelope overlay on the canvas ── */
+.warp-env-iso {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 0.75;
+  opacity: 0.32;
+  pointer-events: none !important;
+}
+.warp-env-edge {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.4;
+  pointer-events: none !important;
+}
+.warp-env-arm {
+  stroke: var(--accent);
+  stroke-width: 1;
+  opacity: 0.7;
+  pointer-events: none !important;
+}
+.warp-env-handle {
+  fill: var(--paper-pure);
+  stroke: var(--accent);
+  stroke-width: 1.25;
+  cursor: grab;
+}
+.warp-env-handle:hover {
+  fill: var(--accent);
+}
+.warp-env-node {
+  fill: var(--accent);
+  stroke: var(--paper-pure);
+  stroke-width: 1.5;
+  cursor: move;
+}
+.warp-env-node:hover {
+  fill: var(--ink);
+}
+
+/* ── Effects ── */
+.fx-chips {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.fx-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 0 4px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  background: var(--paper-pure);
+  color: var(--ink-2);
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--d-1) var(--ease), background var(--d-1) var(--ease), color var(--d-1) var(--ease);
+}
+.fx-chip:hover {
+  border-color: var(--ink-3);
+  color: var(--ink);
+}
+.fx-chip.on {
+  border-color: var(--ink);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+.fx-chip:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+.fx-icon {
+  width: 30px;
+  height: 20px;
+}
+.fx-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  background: var(--paper-pure);
+  padding: 6px 8px 8px;
+  display: grid;
+  gap: 6px;
+}
+.fx-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.fx-card-head .grow {
+  flex: 1;
+}
+.fx-card-head .icon-x {
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+.fx-card-head .icon-x:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.fx-stale {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--accent);
+}
+.fx-stale .grow {
+  flex: 1;
+}
+.fx-dial {
+  width: 22px;
+  height: 22px;
+  cursor: grab;
+  flex: none;
+}
+.fx-dial circle {
+  fill: var(--paper);
+  stroke: var(--rule-strong);
+}
+.fx-dial line {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+}

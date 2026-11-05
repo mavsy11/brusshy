@@ -1,0 +1,432 @@
+/* Vectorize dialog — preview stage + options column. */
+.modal.vz {
+  width: min(1100px, calc(100vw - 32px));
+  height: min(720px, calc(100vh - 48px));
+  max-height: none;
+  display: grid;
+  grid-template-columns: 1fr 312px;
+  overflow: hidden;
+  user-select: none;
+}
+.vz-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background:
+    radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0) 0 0 / 22px 22px,
+    var(--paper);
+  border-right: 1px solid var(--rule);
+}
+.vz-views {
+  display: flex;
+  gap: 4px;
+  padding: 14px 16px 0;
+}
+.vz-chip {
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: var(--paper-lift);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    background var(--d-1) var(--ease),
+    color var(--d-1) var(--ease),
+    border-color var(--d-1) var(--ease);
+}
+.vz-chip:hover {
+  border-color: var(--rule-strong);
+  color: var(--ink);
+}
+.vz-chip.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-pure);
+}
+.vz-views .vz-chip:last-child {
+  margin-left: auto;
+}
+.vz-canvas {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 12px 16px;
+  display: grid;
+  place-items: center;
+}
+.vz-canvas svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 1px 2px rgba(11, 12, 14, 0.06)) drop-shadow(0 18px 40px rgba(11, 12, 14, 0.1));
+}
+.vz-wait {
+  color: var(--ink-3);
+  font-size: 13px;
+}
+.vz-busy {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(11, 12, 14, 0.78);
+  color: #fff;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  animation: fade-in var(--d-2) var(--ease);
+}
+.vz-stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 0 18px 14px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.vz-stats b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.vz-dim {
+  color: var(--ink-3);
+  margin-left: auto;
+}
+.vz-err {
+  color: #b3261e;
+}
+.vz-swatches {
+  display: inline-flex;
+  gap: 3px;
+  margin-left: 6px;
+}
+.vz-swatches i {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(11, 12, 14, 0.12);
+}
+
+.vz-side {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--paper-lift);
+}
+.vz-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 18px 16px 10px 20px;
+}
+.vz-title {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.vz-sub {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--ink-3);
+  max-width: 230px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vz-body {
+  flex: 1;
+  overflow: auto;
+  padding: 4px 20px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.vz-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.vz-mode {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.vz-mode button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 10px;
+  border-radius: var(--r-2);
+  border: 1px solid var(--rule);
+  background: var(--paper-pure);
+  color: var(--ink-2);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--d-1) var(--ease),
+    box-shadow var(--d-1) var(--ease);
+}
+.vz-mode button svg {
+  width: 32px;
+  height: 20px;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+.vz-mode button b {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.vz-mode button span {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--ink-3);
+}
+.vz-mode button:hover {
+  border-color: var(--rule-strong);
+}
+.vz-mode button.on {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+.vz-mode button.on svg {
+  color: var(--accent);
+}
+.vz-colors {
+  display: flex;
+  gap: 4px;
+}
+.vz-colors .vz-chip {
+  flex: 1;
+  padding: 0;
+  font-variant-numeric: tabular-nums;
+}
+.vz-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.vz-field.off {
+  opacity: 0.45;
+}
+.vz-field-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.vz-num {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+  font-weight: 400;
+}
+.vz-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--ink-4);
+}
+.vz-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+.vz-note {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+.vz-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--rule);
+}
+.vz-foot .grow {
+  flex: 1;
+}
+
+/* Source tabs (Sketch / Artwork · Photo / Object) */
+.vz-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin: 0 16px 12px 20px;
+  padding: 2px;
+  border-radius: var(--r-2);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+}
+.vz-tabs button {
+  height: 28px;
+  border: 0;
+  border-radius: calc(var(--r-2) - 2px);
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--d-1) var(--ease),
+    color var(--d-1) var(--ease),
+    box-shadow var(--d-1) var(--ease);
+}
+.vz-tabs button:hover {
+  color: var(--ink);
+}
+.vz-tabs button.on {
+  background: var(--paper-pure);
+  color: var(--ink);
+  box-shadow: 0 0 0 1px var(--rule), 0 1px 2px rgba(11, 12, 14, 0.06);
+}
+
+/* Photo / Object: style cards with live thumbnails */
+.vz-styles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.vz-styles button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 6px 6px 8px;
+  border-radius: var(--r-2);
+  border: 1px solid var(--rule);
+  background: var(--paper-pure);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--d-1) var(--ease),
+    box-shadow var(--d-1) var(--ease);
+}
+.vz-styles button:hover {
+  border-color: var(--rule-strong);
+}
+.vz-styles button.on {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+.vz-styles b {
+  padding: 0 4px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.vz-styles span:not(.vz-thumb) {
+  padding: 0 4px;
+  font-size: 10.5px;
+  color: var(--ink-3);
+}
+.vz-thumb {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 4px;
+  border-radius: calc(var(--r-2) - 4px);
+  background: var(--paper);
+  overflow: hidden;
+}
+.vz-thumb svg {
+  width: 88%;
+  height: 88%;
+}
+.vz-thumb-wait {
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background: var(--rule);
+  animation: vz-pulse 1.2s var(--ease) infinite alternate;
+}
+@keyframes vz-pulse {
+  to {
+    opacity: 0.35;
+  }
+}
+.vz-seg {
+  display: flex;
+  gap: 4px;
+}
+.vz-seg .vz-chip {
+  flex: 1;
+  padding: 0 6px;
+  font-variant-numeric: tabular-nums;
+}
+.vz-row .check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.vz-keep {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-2);
+}
+.vz-keep .vz-chip {
+  width: 24px;
+  height: 22px;
+  padding: 0;
+  flex: none;
+}
+.vz-crop-row {
+  align-items: center;
+  min-height: 26px;
+  color: var(--ink-3);
+}
+
+/* Crop handles on the photo */
+.vz-photo-svg {
+  touch-action: none;
+}
+.vz-crop-body {
+  cursor: move;
+}
+.vz-handle {
+  filter: drop-shadow(0 1px 2px rgba(11, 12, 14, 0.3));
+}
+.vz-h-n,
+.vz-h-s {
+  cursor: ns-resize;
+}
+.vz-h-e,
+.vz-h-w {
+  cursor: ew-resize;
+}
+.vz-h-ne,
+.vz-h-sw {
+  cursor: nesw-resize;
+}
+.vz-h-nw,
+.vz-h-se {
+  cursor: nwse-resize;
+}
+
+/* Properties panel button */
+.vz-open {
+  width: 100%;
+  margin-top: 8px;
+}
+
+@media (max-width: 760px) {
+  .modal.vz {
+    grid-template-columns: 1fr;
+    grid-template-rows: 46% 1fr;
+    height: calc(100vh - 32px);
+  }
+}

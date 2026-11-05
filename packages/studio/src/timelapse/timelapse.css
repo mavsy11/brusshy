@@ -1,0 +1,441 @@
+/* Design timelapse player — full screen, drafting-table paper, minimal chrome. */
+.tlp-root {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: var(--paper);
+  background-image: radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0);
+  background-size: 26px 26px;
+  animation: tlp-in 0.42s var(--ease-out) both;
+  user-select: none;
+}
+@keyframes tlp-in {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- top ---------- */
+.tlp-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px 0;
+  min-width: 0;
+}
+.tlp-title {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+.tlp-title b {
+  font-size: 15px;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tlp-dim,
+.tlp-sub {
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.tlp-sub {
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tlp-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.tlp-seg {
+  display: inline-flex;
+  padding: 2px;
+  gap: 2px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 9px;
+  box-shadow: var(--shadow-1);
+}
+.tlp-seg button {
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 12px;
+  font-weight: 540;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background var(--d-1) var(--ease), color var(--d-1) var(--ease);
+}
+.tlp-seg button:hover {
+  color: var(--ink);
+  background: var(--sel-soft);
+}
+.tlp-seg button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper-pure);
+}
+.tlp-seg.small button {
+  height: 24px;
+  padding: 0 8px;
+  font-size: 11.5px;
+}
+.tlp-aspect {
+  display: inline-block;
+  border: 1.4px solid currentColor;
+  border-radius: 2px;
+  opacity: 0.85;
+}
+.tlp-aspect.square {
+  width: 10px;
+  height: 10px;
+}
+.tlp-aspect.vertical {
+  width: 7px;
+  height: 12px;
+}
+
+.tlp-export {
+  position: relative;
+}
+.tlp-export .btn {
+  gap: 7px;
+  min-width: 96px;
+}
+.tlp-export .btn svg {
+  width: 15px;
+  height: 15px;
+}
+.tlp-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 268px;
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+  background: var(--paper-lift);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--r-3);
+  box-shadow: var(--shadow-2);
+  z-index: 2;
+  animation: tlp-pop 0.22s var(--ease-out) both;
+}
+@keyframes tlp-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+.tlp-menu .label {
+  padding: 2px 6px 6px;
+}
+.tlp-menu-item {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--r-2);
+  background: transparent;
+  cursor: pointer;
+}
+.tlp-menu-item:hover:not(:disabled) {
+  background: var(--paper-pure);
+  border-color: var(--rule);
+}
+.tlp-menu-item:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.tlp-menu-item b {
+  font-weight: 600;
+  font-size: 13px;
+}
+.tlp-menu-item span {
+  color: var(--ink-3);
+  font-size: 12px;
+}
+.tlp-progress {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--rule);
+  overflow: hidden;
+  margin: 4px 6px;
+}
+.tlp-progress i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.15s linear;
+}
+.tlp-dest {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 6px 2px;
+  border-top: 1px solid var(--rule);
+  margin-top: 4px;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+.tlp-dest .tlp-seg {
+  box-shadow: none;
+}
+
+/* ---------- stage ---------- */
+.tlp-stage {
+  min-height: 0;
+  margin: 16px 18px;
+  display: grid;
+  place-items: center;
+}
+.tlp-canvas {
+  display: block;
+  border-radius: 14px;
+  box-shadow: var(--sheet-shadow);
+  cursor: pointer;
+  background: var(--paper);
+}
+
+/* ---------- transport ---------- */
+.tlp-transport {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 18px 16px;
+  padding: 8px 12px;
+  background: var(--panel-bg);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--r-3);
+  box-shadow: var(--shadow-1);
+}
+.tlp-play {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper-pure);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex: none;
+  transition: transform var(--d-1) var(--ease);
+}
+.tlp-play:active {
+  transform: scale(0.94);
+}
+.tlp-play svg {
+  width: 15px;
+  height: 15px;
+}
+.tlp-time {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  min-width: 38px;
+  text-align: center;
+  color: var(--ink-2);
+}
+.tlp-time.dim {
+  color: var(--ink-3);
+}
+.tlp-track {
+  position: relative;
+  flex: 1;
+  height: 34px;
+  cursor: pointer;
+  touch-action: none;
+  min-width: 120px;
+}
+.tlp-ticks {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 12px;
+  transform: translateY(-50%);
+  border-radius: 4px;
+  background: var(--rule);
+  overflow: hidden;
+}
+.tlp-ticks i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid var(--paper-lift);
+  opacity: 0.32;
+  transition: opacity var(--d-1) var(--ease);
+}
+.tlp-ticks i.ai {
+  background: var(--accent);
+}
+.tlp-ticks i.you {
+  background: var(--ink);
+}
+.tlp-ticks i.done {
+  opacity: 0.78;
+}
+.tlp-ticks i.on {
+  opacity: 1;
+}
+.tlp-ticks i.tlp-tail {
+  background: repeating-linear-gradient(90deg, var(--ink-4) 0 2px, transparent 2px 5px);
+  opacity: 0.5;
+  border: 0;
+}
+.tlp-head {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--ink);
+  box-shadow: 0 0 0 2px var(--paper-lift);
+  pointer-events: none;
+}
+.tlp-tip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 340px;
+  padding: 6px 9px;
+  background: var(--ink);
+  color: var(--paper-pure);
+  border-radius: 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: var(--shadow-2);
+}
+.tlp-tip-step {
+  color: var(--ink-4);
+  font-size: 11px;
+}
+.tlp-tip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tlp-who {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  padding: 1px 6px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.16);
+}
+.tlp-who.agent {
+  background: var(--accent);
+}
+.tlp-legend {
+  display: flex;
+  gap: 10px;
+  color: var(--ink-3);
+  font-size: 11.5px;
+  padding-left: 4px;
+}
+.tlp-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.tlp-legend i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+.tlp-legend i.ai {
+  background: var(--accent);
+}
+.tlp-legend i.you {
+  background: var(--ink);
+}
+
+/* ---------- loading / empty ---------- */
+.tlp-empty {
+  grid-row: 1 / -1;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  color: var(--ink-3);
+  text-align: center;
+  padding: 24px;
+}
+.tlp-empty b {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+}
+.tlp-close-abs {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+}
+.tlp-spinner {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--rule);
+  border-top-color: var(--accent);
+  animation: tlp-spin 0.8s linear infinite;
+}
+@keyframes tlp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1100px) {
+  .tlp-legend {
+    display: none;
+  }
+}
+@media (max-width: 900px) {
+  .tlp-title .tlp-sub {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tlp-root,
+  .tlp-menu {
+    animation: none;
+  }
+}
+
+/* History panel entry point */
+.hist-replay {
+  gap: 6px;
+  margin: 2px 4px 8px;
+  color: var(--ink-2);
+}
+.hist-replay:hover {
+  color: var(--ink);
+}

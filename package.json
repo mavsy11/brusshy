@@ -1,0 +1,12 @@
+{
+  "name": "brusshy-monorepo",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/core", "packages/shapes", "packages/studio", "packages/brusshy"],
+  "scripts": {
+    "build": "npm run build -w @brusshy/core && npm run build -w @brusshy/shapes && npm run build -w @brusshy/studio && npm run build -w brusshy",
+    "test": "npm test -w @brusshy/core && npm test -w @brusshy/shapes && npm test -w brusshy",
+    "dev": "npm run dev -w @brusshy/studio",
+    "typecheck": "tsc -p packages/core && tsc -p packages/shapes && tsc -p packages/studio --noEmit && tsc -p packages/brusshy --noEmit"
+  }
+}

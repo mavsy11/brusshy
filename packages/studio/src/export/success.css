@@ -1,0 +1,167 @@
+/* Export finished card (export/ExportSuccess.tsx) */
+.xd {
+  left: 50%;
+  top: 72px;
+  transform: translateX(-50%);
+  width: min(440px, calc(100vw - 32px));
+  display: flex;
+  gap: 14px;
+  padding: 12px 12px 12px 12px;
+  background: var(--paper-lift);
+  box-shadow: var(--shadow-2);
+  z-index: 70;
+  overflow: hidden;
+  animation: xd-in 0.42s var(--ease-out) backwards;
+}
+.xd-thumb {
+  flex: none;
+  width: 76px;
+  height: 76px;
+  border-radius: var(--r-2);
+  background: var(--paper-pure);
+  box-shadow: inset 0 0 0 1px var(--rule);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background-image: linear-gradient(45deg, #f1f2f3 25%, transparent 25%), linear-gradient(-45deg, #f1f2f3 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f1f2f3 75%), linear-gradient(-45deg, transparent 75%, #f1f2f3 75%);
+  background-size: 10px 10px;
+  background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+}
+.xd-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+  animation: fade-in var(--d-3) var(--ease);
+}
+.xd-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 2px;
+}
+.xd-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding-right: 22px;
+}
+.xd-ok {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #1f7a4d;
+  color: #fff;
+  flex: none;
+  animation: xd-pop 0.5s var(--ease-out) 0.12s backwards;
+}
+.xd-ok svg {
+  width: 11px;
+  height: 11px;
+}
+.xd-sub {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ink-2);
+  font-size: 12px;
+  min-width: 0;
+  white-space: nowrap;
+}
+.xd-sub code {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.xd-dot {
+  color: var(--ink-3);
+}
+.xd-sub > :not(code) {
+  flex: none;
+  white-space: nowrap;
+}
+.xd-failed {
+  color: #b3261e;
+}
+.xd-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 7px;
+}
+.xd-actions .btn svg {
+  color: var(--ink-2);
+}
+.xd-note {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.xd-close.icon-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+}
+.xd-close.icon-btn svg {
+  width: 12px;
+  height: 12px;
+}
+/* Time left before it tucks itself away (paused on hover). */
+.xd-timer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--ink-4);
+  opacity: 0.6;
+  transform-origin: left center;
+  animation: xd-timer var(--xd-ms, 9s) linear forwards;
+}
+.xd.hold .xd-timer {
+  animation: none;
+  opacity: 0;
+}
+@keyframes xd-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px) scale(0.98);
+  }
+}
+@keyframes xd-pop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.12);
+  }
+}
+@keyframes xd-timer {
+  to {
+    transform: scaleX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .xd,
+  .xd-ok,
+  .xd-thumb img {
+    animation: none;
+  }
+  .xd-timer {
+    display: none;
+  }
+}

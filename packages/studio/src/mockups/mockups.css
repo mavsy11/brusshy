@@ -1,0 +1,216 @@
+/* Mockups gallery */
+.modal.mk {
+  position: relative;
+  width: min(1240px, calc(100vw - 32px));
+  height: min(860px, calc(100vh - 40px));
+  max-height: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.mk-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 18px 14px 24px;
+  border-bottom: 1px solid var(--rule);
+}
+.mk-head .grow,
+.mk-foot .grow {
+  flex: 1;
+}
+.mk-title {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.mk-sub {
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+.mk-seg {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--sel-soft);
+  border: 1px solid var(--rule);
+}
+.mk-seg button {
+  height: 26px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    background var(--d-1) var(--ease),
+    color var(--d-1) var(--ease);
+}
+.mk-seg button.on {
+  background: var(--paper-pure);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgba(11, 12, 14, 0.12);
+}
+.mk-grid {
+  flex: 1;
+  overflow: auto;
+  padding: 22px 24px 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 22px 20px;
+  align-content: start;
+  background: var(--paper);
+}
+.mk-card {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: mk-rise var(--d-3) var(--ease-out) both;
+}
+@keyframes mk-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.mk-shot {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--paper-lift);
+  box-shadow: var(--sheet-shadow);
+  cursor: zoom-in;
+  transition:
+    transform var(--d-3) var(--ease-out),
+    box-shadow var(--d-3) var(--ease-out);
+}
+.mk-shot:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgba(11, 12, 14, 0.06),
+    0 2px 4px rgba(11, 12, 14, 0.05),
+    0 30px 60px -18px rgba(11, 12, 14, 0.22);
+}
+.mk-shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: fade-in var(--d-3) var(--ease);
+}
+.mk-skel {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.65) 50%, transparent 70%) var(--rule);
+  background-size: 220% 100%;
+  animation: mk-shimmer 1.3s linear infinite;
+  opacity: 0.6;
+}
+@keyframes mk-shimmer {
+  from {
+    background-position: 120% 0;
+  }
+  to {
+    background-position: -120% 0;
+  }
+}
+.mk-err {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  font-size: 12px;
+  color: #b3261e;
+}
+.mk-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(11, 12, 14, 0.7);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(6px);
+}
+.mk-card figcaption {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0 2px;
+}
+.mk-card figcaption > div {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mk-card figcaption b {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.mk-card figcaption span {
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+.mk-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px 12px 24px;
+  border-top: 1px solid var(--rule);
+}
+.mk-hint {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.mk-zoom {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px;
+  background: rgba(244, 245, 245, 0.92);
+  backdrop-filter: blur(8px);
+  animation: fade-in var(--d-2) var(--ease);
+}
+.mk-zoom img {
+  max-width: 100%;
+  max-height: calc(100% - 60px);
+  border-radius: 14px;
+  box-shadow: var(--shadow-2);
+  animation: modal-in var(--d-3) var(--ease-out);
+}
+.mk-zoom-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(100%, 900px);
+  font-size: 13px;
+}
+.mk-zoom-bar span {
+  color: var(--ink-3);
+}
+.mk-zoom-bar .grow {
+  flex: 1;
+}
+.mockups-btn {
+  gap: 6px;
+}

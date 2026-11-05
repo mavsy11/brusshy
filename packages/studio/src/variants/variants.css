@@ -1,0 +1,62 @@
+/* "More like this" / "Vary this" on a version's sheet label (variants/SheetActions.tsx). */
+.sheet-acts {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 2px;
+  opacity: 0;
+  transform: translateY(2px);
+  pointer-events: none;
+  transition:
+    opacity var(--d-2) var(--ease),
+    transform var(--d-2) var(--ease-out);
+}
+.sheet-label:hover .sheet-acts,
+.sheet.active .sheet-acts,
+.sheet-acts:focus-within {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+/* On the active version they rest quietly until the label is hovered. */
+.sheet.active .sheet-label:not(:hover) .sheet-act {
+  color: var(--ink-3);
+  border-color: transparent;
+  background: transparent;
+}
+.sheet-act {
+  border: 1px solid var(--rule-strong);
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--paper-pure);
+  color: var(--ink-2);
+  border-radius: 999px;
+  padding: 1px 8px;
+  line-height: 14px;
+  cursor: pointer;
+  transition:
+    color var(--d-1) var(--ease),
+    border-color var(--d-1) var(--ease),
+    background var(--d-1) var(--ease);
+}
+.sheet-act:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.sheet-act:active {
+  transform: translateY(0.5px);
+}
+.sheet-act:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+html[data-outlines] .sheet-acts {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sheet-acts {
+    transition: none;
+    transform: none;
+  }
+}

@@ -1,0 +1,433 @@
+/* Design critique: floating review panel + red-pencil markers on the canvas. */
+
+.cq-panel {
+  position: absolute;
+  left: 76px;
+  top: 76px;
+  width: 360px;
+  /* ends above the canvas chat */
+  max-height: calc(100% - 76px - 104px);
+  display: flex;
+  flex-direction: column;
+  z-index: 31;
+  overflow: hidden;
+  box-shadow: var(--shadow-2);
+  animation: cq-in var(--d-3) var(--ease-out);
+}
+@keyframes cq-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+.app:not(.rulers) .cq-panel {
+  left: 72px;
+}
+
+.cq-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 12px 0 18px;
+}
+.cq-head .icon-btn {
+  font-size: 18px;
+  margin-top: -4px;
+}
+.cq-overall {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  margin-top: 6px;
+}
+.cq-score {
+  font-size: 44px;
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.cq-score.dim {
+  color: var(--ink-4);
+}
+.cq-of {
+  font-size: 13px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.cq-overall.weak .cq-score {
+  color: var(--accent);
+}
+.cq-verdict {
+  margin: 8px 18px 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.cq-body {
+  flex: 1;
+  min-height: 0;
+  border-top: 1px solid var(--rule);
+}
+
+/* categories */
+.cq-cats {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 8px 10px;
+  gap: 1px;
+  border-bottom: 1px solid var(--rule);
+}
+.cq-cat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 5px 10px 6px;
+  border: 0;
+  border-radius: var(--r-1);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink);
+  transition: background var(--d-1) var(--ease);
+}
+.cq-cat:hover:not(:disabled) {
+  background: var(--sel-soft);
+}
+.cq-cat.on {
+  background: var(--sel-soft);
+  box-shadow: inset 2px 0 0 var(--ink);
+}
+.cq-cat:disabled {
+  cursor: default;
+}
+.cq-cat-top {
+  display: grid;
+  grid-template-columns: 92px 1fr 28px;
+  align-items: center;
+  gap: 10px;
+}
+.cq-cat-label {
+  font-size: 12px;
+  font-weight: 500;
+}
+.cq-cat.na .cq-cat-label,
+.cq-cat.na .cq-cat-score {
+  color: var(--ink-4);
+}
+.cq-cat-score {
+  font-size: 12px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-2);
+}
+.cq-cat-verdict {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cq-cat.on .cq-cat-verdict {
+  white-space: normal;
+}
+.cq-bar {
+  position: relative;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--rule);
+  overflow: hidden;
+}
+.cq-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: width var(--d-3) var(--ease-out);
+}
+.cq-bar.weak i {
+  background: var(--accent);
+}
+
+/* findings */
+.cq-list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px 4px;
+  min-height: 26px;
+}
+.cq-findings {
+  list-style: none;
+  margin: 0;
+  padding: 2px 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.cq-finding {
+  display: flex;
+  align-items: flex-start;
+  border-radius: var(--r-2);
+  transition: background var(--d-1) var(--ease);
+}
+.cq-finding:hover,
+.cq-finding.on {
+  background: var(--sel-soft);
+}
+.cq-finding-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 10px;
+  padding: 9px 4px 9px 10px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink);
+}
+.cq-num {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  background: var(--paper-pure);
+  border: 1px solid var(--rule-strong);
+  color: var(--ink-2);
+}
+.cq-finding.sev-high .cq-num {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.cq-finding.on .cq-num {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--paper-pure);
+}
+.cq-finding-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.cq-finding-title {
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.cq-finding-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.cq-sev {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-4);
+}
+.cq-finding.sev-high .cq-sev {
+  background: var(--accent);
+}
+.cq-finding.sev-medium .cq-sev {
+  background: var(--ink-2);
+}
+.cq-finding-detail {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.cq-finding-fix {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink);
+  padding: 6px 8px;
+  margin-top: 2px;
+  border-radius: var(--r-1);
+  background: var(--paper-pure);
+  border: 1px solid var(--rule);
+}
+.cq-finding-fix b {
+  font-size: var(--label-size);
+  letter-spacing: var(--label-track);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+  margin-right: 4px;
+}
+.cq-pin {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  margin: 5px 5px 0 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--r-1);
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--d-1) var(--ease), background var(--d-1) var(--ease), color var(--d-1) var(--ease);
+}
+.cq-pin svg {
+  width: 15px;
+  height: 15px;
+}
+.cq-finding:hover .cq-pin,
+.cq-finding.on .cq-pin,
+.cq-pin:focus-visible {
+  opacity: 1;
+}
+.cq-pin:hover {
+  background: var(--paper-pure);
+  color: var(--accent);
+}
+.cq-empty,
+.cq-note {
+  padding: 4px 18px 12px;
+}
+
+/* footer */
+.cq-foot {
+  border-top: 1px solid var(--rule);
+  padding: 12px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--panel-bg);
+}
+.cq-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 8px;
+}
+.cq-links {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--ink-4);
+}
+.cq-links button {
+  border: 0;
+  background: none;
+  padding: 2px 0;
+  font: inherit;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+.cq-links button:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* canvas overlay */
+svg.cq-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: visible;
+}
+.cq-area rect {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+  stroke-width: 1.25;
+  stroke-dasharray: 5 4;
+  animation: cq-area-in var(--d-2) var(--ease-out);
+}
+@keyframes cq-area-in {
+  from {
+    opacity: 0;
+  }
+}
+.cq-area-label {
+  font: 500 11.5px var(--font);
+  fill: var(--accent);
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.cq-mark {
+  pointer-events: auto;
+  cursor: pointer;
+}
+.cq-mark circle {
+  fill: var(--paper-pure);
+  stroke: var(--ink);
+  stroke-width: 1.25;
+  filter: drop-shadow(0 1px 2px rgba(11, 12, 14, 0.18));
+  transition: r var(--d-1) var(--ease);
+}
+.cq-mark text {
+  font: 600 10px var(--font);
+  text-anchor: middle;
+  fill: var(--ink);
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+.cq-mark.sev-high circle {
+  stroke: var(--accent);
+}
+.cq-mark.sev-high text {
+  fill: var(--accent);
+}
+.cq-mark.on circle {
+  fill: var(--accent);
+  stroke: var(--paper-pure);
+  stroke-width: 2;
+}
+.cq-mark.on text {
+  fill: var(--paper-pure);
+}
+
+/* version panel entry row */
+.version-review {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.version-review .btn {
+  justify-content: center;
+}
+.version-review .btn svg {
+  width: 15px;
+  height: 15px;
+}
+.cq-pinned {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--ink-2);
+}
+.cq-pinned button {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: 500 11.5px var(--font);
+  color: var(--accent);
+  cursor: pointer;
+}
+.cq-pinned button:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

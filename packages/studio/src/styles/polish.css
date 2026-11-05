@@ -1,0 +1,239 @@
+/* Polish pass: focus rings, hover/press states, micro-feedback and contrast fixes.
+   Loaded after the base styles; `:root` prefixes only raise specificity over
+   component sheets that load later. */
+
+/* ---------- focus rings (keyboard only) ---------- */
+:root {
+  --focus-ring: 0 0 0 2px var(--paper-pure), 0 0 0 3.5px rgba(11, 12, 14, 0.72);
+}
+button:focus-visible,
+[role="button"]:focus-visible,
+a:focus-visible,
+summary:focus-visible,
+select:focus-visible,
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible,
+input[type="range"]:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+/* Text fields keep their border change and gain a soft halo. */
+:root .field:focus-within,
+:root .text-input:focus,
+:root .hex:focus,
+:root .select:focus {
+  border-color: var(--ink-3);
+  box-shadow: 0 0 0 3px rgba(11, 12, 14, 0.07);
+}
+:root .select:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+/* ---------- hover / press states the chrome lacked ---------- */
+.icon-btn:not(:disabled):active,
+.seg:active,
+.tab:active,
+.zoom-val:active,
+.menu-item:active,
+.version:active,
+.notes-pill:active,
+.brief-btn:active,
+.doc-name:active {
+  transform: scale(0.96);
+}
+.icon-btn,
+.seg,
+.tab,
+.zoom-val,
+.menu-item,
+.version,
+.notes-pill,
+.brief-btn,
+.doc-name {
+  transition-property: background, color, border-color, box-shadow, transform;
+  transition-duration: var(--d-1);
+  transition-timing-function: var(--ease);
+}
+.tab:not(.on):hover {
+  color: var(--ink);
+}
+.zoom-val {
+  height: 28px;
+  border-radius: var(--r-1);
+}
+.zoom-val:hover {
+  background: var(--sel-soft);
+  color: var(--ink);
+}
+.sheet-label:hover > span:first-child {
+  color: var(--ink);
+}
+.btn.primary:active {
+  background: #000;
+}
+
+/* ---------- tooltips: view switch, top-bar buttons, zoom bar ---------- */
+.seg,
+.topbar .btn {
+  position: relative;
+}
+.seg:hover .tip.below,
+.topbar .btn:hover .tip.below {
+  opacity: 1;
+  transform: translateX(-50%);
+  transition-delay: 0.35s;
+}
+.zoom .tip {
+  left: 50%;
+  top: auto;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%) translateY(4px);
+}
+.zoom .icon-btn:hover .tip {
+  transform: translateX(-50%);
+}
+
+/* ---------- contrast: secondary text on paper meets WCAG AA at 12 px ---------- */
+:root .sheet-label .dim,
+:root .menu-item .dim,
+:root .tab .count,
+:root .field .suffix,
+:root .layer-tag,
+:root .hist-row:not(.current) .when,
+:root .hist-step,
+:root .ss-row:not(.dark) .ss-tile figcaption .dim,
+:root .brief-label .dim,
+:root .brief-field textarea::placeholder,
+:root .msg.user .meta,
+:root .chat-steps .ms {
+  color: var(--ink-3);
+}
+
+/* ---------- snapping: a guide flashes once when it engages ---------- */
+.overlay .guide {
+  animation: guide-engage 0.5s var(--ease-out);
+}
+@keyframes guide-engage {
+  0% {
+    stroke-width: 2.5;
+    stroke-dasharray: none;
+    opacity: 1;
+  }
+  45% {
+    stroke-dasharray: none;
+  }
+  100% {
+    stroke-width: 1;
+  }
+}
+
+/* ---------- AI finished: soft success pill above the chat ---------- */
+.chat-dock > .ai-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 28px;
+  padding: 0 12px 0 6px;
+  border-radius: 999px;
+  background: var(--paper-pure);
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-1);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  animation: ai-done 2.8s var(--ease-out) forwards;
+}
+.ai-done-check {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #1f7a4d;
+  color: #fff;
+  animation: xd-pop 0.5s var(--ease-out) 0.1s backwards;
+}
+@keyframes ai-done {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  12%,
+  82% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+@keyframes xd-pop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.12);
+  }
+}
+
+/* ---------- loading: fonts that are still downloading breathe instead of sitting greyed out ---------- */
+:root .tl-fonts .loading {
+  animation: polish-breathe 1.3s var(--ease) infinite;
+}
+:root .cw-skel {
+  animation: polish-skel 1.3s var(--ease) infinite;
+}
+@keyframes polish-breathe {
+  0%,
+  100% {
+    opacity: 0.16;
+  }
+  50% {
+    opacity: 0.34;
+  }
+}
+@keyframes polish-skel {
+  0%,
+  100% {
+    opacity: 0.05;
+  }
+  50% {
+    opacity: 0.12;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-btn:active,
+  .seg:active,
+  .tab:active,
+  .zoom-val:active,
+  .menu-item:active,
+  .version:active,
+  .notes-pill:active,
+  .brief-btn:active,
+  .doc-name:active {
+    transform: none;
+  }
+  .overlay .guide,
+  :root .tl-fonts .loading,
+  :root .cw-skel,
+  .ai-done-check {
+    animation: none;
+  }
+  .chat-dock > .ai-done {
+    animation: fade-in 0.2s linear;
+  }
+}
+
+/* The right-most top-bar button's tip hugs the screen edge instead of overflowing it. */
+.topbar .export-btn .tip.below {
+  left: auto;
+  right: 0;
+  transform: translateY(-4px);
+}
+.topbar .export-btn:hover .tip.below {
+  transform: none;
+}

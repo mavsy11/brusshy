@@ -1,0 +1,228 @@
+/* Lockup builder (panel + canvas guides) — drafting-table look: paper, ink, hairlines, vermilion. */
+
+.lk-tiles {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+.lk-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 7px 0 5px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  background: var(--paper-pure);
+  color: var(--ink-2);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: border-color var(--d-1) var(--ease), background var(--d-1) var(--ease), color var(--d-1) var(--ease);
+  min-width: 0;
+}
+.lk-tile span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 2px;
+}
+.lk-tile:hover {
+  border-color: var(--ink-3);
+  color: var(--ink);
+}
+.lk-tile.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-pure);
+}
+/* The arrangement the version has now: a small vermilion tick. */
+.lk-tile.current::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.lk-glyph {
+  width: 34px;
+  height: 20px;
+}
+.lk-g-mark {
+  fill: currentColor;
+}
+.lk-g-type {
+  fill: currentColor;
+  opacity: 0.45;
+}
+.lk-tile.on .lk-g-mark {
+  fill: var(--accent);
+}
+.lk-tile.on .lk-g-type {
+  opacity: 0.75;
+}
+
+.lk-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lk-row {
+  display: grid;
+  grid-template-columns: 44px 1fr 74px;
+  align-items: center;
+  gap: 8px;
+}
+.lk-row .field input {
+  font-variant-numeric: tabular-nums;
+}
+.lk-seg-row {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: center;
+  gap: 8px;
+}
+.lk-clear .lk-seg-row {
+  grid-template-columns: 44px 1fr 74px;
+}
+.lk-seg .seg {
+  font-size: 11.5px;
+  height: 24px;
+}
+.lk-seg .seg:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.lk-guides {
+  gap: 5px;
+  color: var(--ink-2);
+}
+.lk-guides svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+}
+.lk-guides.on {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.lk-actions {
+  display: flex;
+  gap: 6px;
+}
+.lk-actions .btn:first-child {
+  flex: 1;
+}
+.lk-error {
+  color: #b3261e;
+}
+.lk-rows .style-row dd {
+  font-variant-numeric: tabular-nums;
+}
+.lk-rows .style-row.lk-warn dd {
+  color: var(--accent);
+}
+.lk-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.lk-src {
+  font-size: 11px;
+  color: var(--ink-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.lk-src::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--ink-4);
+}
+.lk-src.exact::before {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+/* ---------- canvas guides ---------- */
+svg.lockup-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: visible;
+}
+.lk-zone {
+  fill: var(--accent-soft);
+  fill-rule: evenodd;
+}
+.lk-zone-edge {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+  stroke-dasharray: 5 4;
+}
+.lk-zone-edge.cut {
+  stroke-dasharray: none;
+  stroke-width: 1.5;
+}
+.lk-ink {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 0.75;
+  opacity: 0.7;
+}
+.lk-unit {
+  fill: rgba(255, 255, 255, 0.55);
+  stroke: var(--accent);
+  stroke-width: 0.75;
+}
+.lk-unit-label {
+  font: 600 10px var(--font);
+  fill: var(--accent);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+.lk-line {
+  stroke: var(--ink-2);
+  stroke-width: 0.75;
+  stroke-dasharray: 2 3;
+  opacity: 0.8;
+}
+.lk-line.base {
+  stroke-dasharray: none;
+}
+.lk-line-label {
+  font: 500 9.5px var(--mono);
+  fill: var(--ink-3);
+  dominant-baseline: central;
+}
+.lk-centre {
+  stroke: var(--accent);
+  stroke-width: 1.25;
+  fill: none;
+}
+.lk-centre-board {
+  stroke: var(--ink-3);
+  stroke-width: 1;
+  fill: none;
+}
+.lk-tag {
+  font: 500 10.5px var(--font);
+  fill: var(--accent);
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}

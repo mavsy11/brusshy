@@ -1,0 +1,364 @@
+/* Construction layer + shape builder (tokens from styles/tokens.css). */
+
+svg.construct-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+.cs-guide {
+  fill: none;
+  stroke: var(--guide);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.85;
+}
+.cs-guide.role-grid,
+.cs-guide.role-radial {
+  opacity: 0.38;
+}
+.cs-guide.role-keyline {
+  stroke-dasharray: 5 4;
+  opacity: 0.7;
+}
+.cs-guide.role-derived {
+  stroke-dasharray: 2 3;
+}
+/* Outside the tool the construction is quieter, so the mark reads first. */
+svg.construct-layer:not(.active) .cs-guide {
+  opacity: 0.5;
+}
+svg.construct-layer:not(.active) .cs-guide.role-grid,
+svg.construct-layer:not(.active) .cs-guide.role-radial {
+  opacity: 0.22;
+}
+.cs-guide.hov {
+  stroke-width: 2;
+  opacity: 1;
+}
+.cs-guide.sel {
+  stroke-width: 2;
+  opacity: 1;
+  stroke-dasharray: none;
+}
+.cs-guide.draft {
+  opacity: 1;
+  stroke-width: 1.25;
+}
+.cs-guide.draft.dim {
+  stroke-dasharray: 3 3;
+  opacity: 0.6;
+}
+.cs-centre {
+  fill: none;
+  stroke: var(--guide);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.55;
+}
+svg.construct-layer:not(.active) .cs-centre {
+  opacity: 0.3;
+}
+.cs-face {
+  fill-opacity: 0.22;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+}
+.cs-sweep {
+  fill-opacity: 0.4;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+}
+.cs-snap {
+  fill: var(--paper-pure);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.cs-snap-label,
+.cs-readout {
+  font: 500 10.5px var(--mono);
+  fill: var(--accent);
+  paint-order: stroke;
+  stroke: var(--paper-pure);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.construct-capture {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  cursor: crosshair;
+}
+.construct-capture.mode-fill {
+  cursor: cell;
+}
+
+/* ---------- bar ---------- */
+.construct-bar {
+  left: 88px;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+}
+.app:not(.rulers) .construct-bar {
+  left: 72px;
+}
+.construct-bar svg,
+.cb-menu svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cb-seg {
+  display: flex;
+  gap: 2px;
+  background: var(--sel-soft);
+  border-radius: 999px;
+  padding: 2px;
+}
+.cb-seg button,
+.cb-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  color: var(--ink-2);
+  padding: 5px 10px 5px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background var(--d-1) var(--ease), color var(--d-1) var(--ease);
+}
+.cb-seg button:hover,
+.cb-btn:hover {
+  color: var(--ink);
+}
+.cb-seg button.on {
+  background: var(--paper-pure);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgba(11, 12, 14, 0.08);
+}
+.cb-seg button.on .fillme {
+  fill: var(--accent);
+  stroke: none;
+}
+.cb-btn.on {
+  background: var(--sel-soft);
+  color: var(--ink);
+}
+.cb-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--rule);
+}
+.cb-icon {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.cb-icon:hover:not(:disabled) {
+  background: var(--sel-soft);
+  color: var(--ink);
+}
+.cb-icon:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.cb-icon.off {
+  color: var(--ink-4);
+}
+.cb-dots {
+  display: flex;
+  gap: 5px;
+}
+.cb-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--c);
+  box-shadow: inset 0 0 0 1px rgba(11, 12, 14, 0.12);
+  cursor: pointer;
+  transition: transform var(--d-1) var(--ease);
+}
+.cb-dot:hover {
+  transform: scale(1.12);
+}
+.cb-dot.on {
+  box-shadow: 0 0 0 2px var(--paper-pure), 0 0 0 3.5px var(--ink);
+}
+.cb-hint,
+.cb-dim {
+  font-size: 11.5px;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.cb-guide {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cb-kind {
+  font-size: var(--label-size);
+  letter-spacing: var(--label-track);
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+}
+.cb-num {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.cb-num input {
+  width: 52px;
+  font: inherit;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  background: var(--paper-pure);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  padding: 3px 6px;
+}
+.cb-num input:focus {
+  outline: none;
+  border-color: var(--ink-3);
+}
+
+/* ---------- grids menu ---------- */
+.cb-menu {
+  left: 88px;
+  bottom: 72px;
+  z-index: 40;
+  width: 520px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+}
+.app:not(.rulers) .cb-menu {
+  left: 72px;
+}
+.cb-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 10px;
+  border-radius: var(--r-2);
+}
+.cb-row + .cb-row {
+  border-top: 1px solid var(--rule);
+}
+.cb-row-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cb-row-title b {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.cb-row-title span {
+  font-size: 11.5px;
+  color: var(--ink-3);
+  line-height: 1.35;
+}
+.cb-row select {
+  font: inherit;
+  font-size: 12px;
+  color: var(--ink);
+  background: var(--paper-pure);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  padding: 4px 6px;
+}
+.cb-ratio {
+  width: 56px;
+  font: inherit;
+  font-size: 12px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  padding: 4px 6px;
+  background: var(--paper-pure);
+}
+.cb-link {
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 11.5px;
+  color: var(--ink-3);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.cb-add {
+  border: 0;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--ink);
+  color: var(--paper-pure);
+  border-radius: 999px;
+  padding: 5px 13px;
+  cursor: pointer;
+}
+.cb-add.ghost {
+  background: var(--sel-soft);
+  color: var(--ink);
+}
+.cb-add:hover {
+  opacity: 0.88;
+}
+
+/* ---------- booleans in the quick bar ---------- */
+.qb-bools {
+  display: flex;
+  gap: 1px;
+}
+.bool-ico .f {
+  fill: currentColor;
+  fill-opacity: 0.85;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+}
+.bool-ico .o {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+  opacity: 0.55;
+}
+
+/* The bar takes the zoom controls' corner (like the brush bar); the chat dock moves up. */
+.app:has(.construct-bar) .zoom {
+  display: none;
+}
+.app:has(.construct-bar) .chat-dock {
+  bottom: 76px;
+}

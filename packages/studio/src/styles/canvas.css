@@ -1,0 +1,586 @@
+/* ---------- stage ---------- */
+.stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+.pane {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+.view-split .pane-2d {
+  border-right: 1px solid var(--rule);
+}
+/* The side panel floats over the infinite 2D canvas, but the 3D view stops before it. */
+.pane-3d {
+  margin-right: 304px;
+}
+
+/* ---------- drafting table ---------- */
+.canvas {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+  background-color: var(--paper);
+  /* dots + major grid lines, sized/offset from JS with the camera */
+  background-image: radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0),
+    linear-gradient(var(--grid-major) 1px, transparent 1px), linear-gradient(90deg, var(--grid-major) 1px, transparent 1px);
+}
+.canvas::after {
+  /* soft vignette: the grid fades toward the edges like a lit drafting table */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(244, 245, 245, 0.75) 100%);
+  z-index: 0;
+}
+.sheet {
+  position: absolute;
+  background: var(--paper-pure);
+  box-shadow: var(--sheet-shadow);
+  border-radius: 2px;
+  z-index: 1;
+}
+.sheet-label {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 10px);
+  display: flex;
+  gap: 10px;
+  font-size: var(--label-size);
+  letter-spacing: var(--label-track);
+  text-transform: uppercase;
+  color: var(--ink-2);
+  white-space: nowrap;
+  font-weight: 500;
+}
+.sheet-label .dim {
+  color: var(--ink-4);
+}
+svg.scene {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: visible;
+  /* Only painted artwork hits: the empty area must not cover the sheet labels (version pick, drag, actions). */
+  pointer-events: none;
+}
+svg.scene > g {
+  pointer-events: visiblePainted;
+}
+svg.scene .sketch-layer {
+  mix-blend-mode: multiply;
+}
+svg.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: visible;
+}
+svg.overlay [data-ui] * {
+  pointer-events: all;
+}
+.hover-outline {
+  fill: none;
+  stroke: var(--sel);
+  stroke-width: 1;
+  opacity: 0.45;
+}
+.flash-outline {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  animation: flash 1.4s var(--ease-out) forwards;
+}
+@keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.sel-box {
+  fill: none;
+  stroke: var(--sel);
+  stroke-width: 1;
+}
+.sel-thin {
+  fill: none;
+  stroke: var(--sel);
+  stroke-width: 1;
+  opacity: 0.55;
+}
+.handle {
+  fill: var(--paper-pure);
+  stroke: var(--sel);
+  stroke-width: 1.25;
+}
+.handle:hover {
+  fill: var(--sel);
+}
+.rot-handle {
+  fill: var(--paper-pure);
+  stroke: var(--sel);
+  stroke-width: 1.25;
+  cursor: grab;
+}
+.guide {
+  stroke: var(--guide);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.marquee {
+  fill: rgba(11, 12, 14, 0.04);
+  stroke: var(--ink-2);
+  stroke-width: 1;
+  stroke-dasharray: 3 2;
+}
+.draft-shape {
+  fill: rgba(11, 12, 14, 0.06);
+  stroke: var(--sel);
+  stroke-width: 1;
+}
+.dim-label {
+  font: 500 10.5px var(--font);
+  fill: var(--paper-pure);
+  paint-order: stroke;
+  stroke: var(--ink);
+  stroke-width: 14px;
+  stroke-linejoin: round;
+}
+
+/* ---------- path editor ---------- */
+.pe-outline {
+  fill: none;
+  stroke: var(--sel);
+  stroke-width: 1;
+}
+.pe-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 12;
+  cursor: copy;
+}
+.pe-arm {
+  stroke: var(--ink-3);
+  stroke-width: 1;
+}
+.pe-handle {
+  fill: var(--paper-pure);
+  stroke: var(--ink-2);
+  stroke-width: 1.25;
+  cursor: move;
+}
+.pe-anchor {
+  fill: var(--paper-pure);
+  stroke: var(--sel);
+  stroke-width: 1.25;
+  cursor: move;
+}
+.pe-anchor.on {
+  fill: var(--sel);
+}
+
+/* ---------- rulers ---------- */
+.ruler {
+  position: absolute;
+  z-index: 4;
+  cursor: copy;
+  background: rgba(250, 251, 251, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.ruler-x {
+  left: 20px;
+  right: 0;
+  top: 0;
+  height: 20px;
+  width: calc(100% - 20px);
+  border-bottom: 1px solid var(--rule);
+}
+.ruler-y {
+  top: 20px;
+  left: 0;
+  width: 20px;
+  height: calc(100% - 20px);
+  border-right: 1px solid var(--rule);
+}
+.ruler-corner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  z-index: 5;
+  background: var(--paper-lift);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* ---------- annotations ---------- */
+.annotations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+}
+.pin {
+  position: absolute;
+  pointer-events: auto;
+  transform: translate(-50%, -100%);
+}
+.pin-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50% 50% 50% 4px;
+  transform: rotate(-45deg);
+  background: var(--accent);
+  color: #fff;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 14px rgba(255, 77, 31, 0.35);
+  display: grid;
+  place-items: center;
+  font: 600 11px var(--font);
+  cursor: pointer;
+  padding: 0;
+  transform-origin: center;
+}
+.pin-dot > * {
+  transform: rotate(45deg);
+}
+.pin .pin-dot {
+  transform: rotate(-45deg);
+}
+.pin.in_progress .pin-dot {
+  animation: pulse 1.4s var(--ease) infinite;
+}
+.pin.resolved .pin-dot {
+  background: var(--ink);
+  box-shadow: var(--shadow-1);
+}
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 0 8px rgba(255, 77, 31, 0);
+  }
+}
+.note-pop {
+  position: absolute;
+  left: 22px;
+  top: -6px;
+  width: 268px;
+  background: var(--paper-lift);
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-2);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: modal-in var(--d-2) var(--ease-out);
+  user-select: text;
+}
+.note-pop textarea {
+  width: 100%;
+  resize: none;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-2);
+  padding: 8px 10px;
+  background: var(--paper-pure);
+  outline: none;
+  font-size: 13px;
+}
+.note-pop textarea:focus {
+  border-color: var(--ink-3);
+}
+.note-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.note-num {
+  font-weight: 600;
+}
+.note-status {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-right: auto;
+}
+.note-status.resolved {
+  background: var(--sel-soft);
+  color: var(--ink-2);
+}
+.note-target {
+  font-size: var(--label-size);
+  letter-spacing: var(--label-track);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.note-text {
+  margin: 0;
+  font-size: 13px;
+}
+.note-reply {
+  margin: 0;
+  padding: 8px 10px;
+  border-left: 2px solid var(--accent);
+  background: var(--paper-pure);
+  border-radius: 0 8px 8px 0;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.note-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.note-actions .hint {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-right: auto;
+}
+/* delete / discard a note */
+.note-trash {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--r-1);
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: color var(--d-1) var(--ease), background var(--d-1) var(--ease);
+}
+.note-trash svg {
+  width: 16px;
+  height: 16px;
+}
+.note-trash:hover {
+  color: #b3261e;
+  background: rgba(179, 38, 30, 0.08);
+}
+.icon-btn.tiny {
+  width: 22px;
+  height: 22px;
+  font-size: 16px;
+}
+
+/* ---------- text editing ---------- */
+.text-edit {
+  position: absolute;
+  z-index: 7;
+  border: 0;
+  outline: 1px dashed var(--accent);
+  outline-offset: 4px;
+  background: transparent;
+  color: transparent;
+  caret-color: var(--accent);
+  padding: 0;
+  margin: 0;
+  white-space: pre;
+}
+
+/* draftsman guides dragged from the rulers */
+.user-guide {
+  position: absolute;
+  z-index: 3;
+  background: transparent;
+}
+.user-guide::after {
+  content: "";
+  position: absolute;
+  background: var(--accent);
+  opacity: 0.55;
+}
+.user-guide.v {
+  top: 0;
+  bottom: 0;
+  width: 7px;
+  margin-left: -3px;
+  cursor: ew-resize;
+}
+.user-guide.v::after {
+  left: 3px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+.user-guide.h {
+  left: 0;
+  right: 0;
+  height: 7px;
+  margin-top: -3px;
+  cursor: ns-resize;
+}
+.user-guide.h::after {
+  top: 3px;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+/* versions (frames) */
+.sheet.active .sheet-label > span:first-child {
+  color: var(--ink);
+}
+.sheet:not(.active) .sheet-label {
+  opacity: 0.7;
+}
+.sheet-label {
+  cursor: grab;
+  pointer-events: auto;
+}
+.sheet.selected {
+  outline: 1px solid var(--sel);
+  outline-offset: 0;
+}
+.frame-empty-wrap {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* node editor: selection box, pivot, soft-selection reach */
+.pe-selbox {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+}
+.pe-pivot {
+  cursor: move;
+}
+.pe-pivot circle {
+  fill: var(--paper-pure);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.pe-pivot path {
+  stroke: var(--accent);
+  stroke-width: 1.25;
+}
+.pe-soft {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ---------- AI draw-in (layers the AI just added) ---------- */
+.draw-in-fill {
+  animation: draw-in-fill 1.05s var(--ease) both;
+}
+.draw-in-line {
+  stroke: var(--accent);
+  stroke-width: 1.4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  pointer-events: none;
+  animation: draw-in-line 1.35s var(--ease-out) both;
+}
+@keyframes draw-in-fill {
+  0%,
+  35% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes draw-in-line {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  55% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .draw-in-fill,
+  .draw-in-line {
+    animation: none;
+  }
+  .draw-in-line {
+    display: none;
+  }
+}
+
+/* Version labels stay inside their sheet's width (Canvas2D sets max-width), so zoomed-out
+   neighbours never overlap: the name ellipsizes, the size drops, actions float on hover. */
+.sheet-label {
+  max-width: 100%;
+  min-width: 0;
+  align-items: center;
+}
+.sheet-title {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+  overflow: hidden;
+}
+.sheet-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sheet-title .dim {
+  flex: none;
+}
+.sheet-label > .sheet-pick,
+.sheet-label > .sheet-acts {
+  flex: none;
+}
+.sheet-label.gone {
+  display: none;
+}
+/* Narrow sheet: "Continue with this" and the variant actions leave the row and pop up above the
+   label on hover, on a card so they read over the neighbours (padding bridges the hover gap). */
+.sheet-label.tight > .sheet-pick,
+.sheet-label.tight > .sheet-acts {
+  position: absolute;
+  left: -6px;
+  bottom: 100%;
+  margin: 0;
+  z-index: 3;
+}
+.sheet-label.tight > .sheet-acts {
+  padding: 4px 6px 6px;
+  border-radius: 999px;
+  background: var(--paper-pure);
+  box-shadow: var(--sheet-shadow);
+}
+.sheet.active .sheet-label.tight:not(:hover) .sheet-acts {
+  opacity: 0;
+  pointer-events: none;
+}
+.sheet-label.tight > .sheet-pick {
+  display: none;
+}
+.sheet-label.tight:hover > .sheet-pick {
+  display: inline-block;
+}
+.sheet-label.tight:hover > .sheet-pick + .sheet-acts {
+  bottom: calc(100% + 26px);
+}

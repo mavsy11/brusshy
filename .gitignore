@@ -1,0 +1,12 @@
+node_modules
+dist
+.DS_Store
+*.log
+/brusshy/
+/.dev-project/
+out-*.png
+
+# Local-only files, not published
+/docs/superpowers/
+/docs/launch/
+/apps/landing/launch/

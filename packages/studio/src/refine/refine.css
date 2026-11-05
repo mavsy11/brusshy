@@ -1,0 +1,287 @@
+/* Refine panel — hangs off the floating quick bar (canvas/QuickBar.tsx). Drafting-table language. */
+
+.qb-refine.on {
+  background: var(--ink);
+  color: var(--paper-pure);
+}
+.qb-refine.on:hover {
+  background: var(--ink);
+  color: var(--paper-pure);
+}
+
+.refine-pop {
+  position: absolute;
+  width: 316px;
+  padding: 10px;
+  border-radius: var(--r-3);
+  background: var(--paper-lift);
+  border: 1px solid var(--panel-border);
+  box-shadow: var(--shadow-2);
+  white-space: normal;
+  cursor: default;
+  z-index: 26;
+  animation: rf-in var(--d-2) var(--ease-out);
+}
+@keyframes rf-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+.rf-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 2px 8px;
+}
+.rf-count {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+.rf-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.rf-act {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 2px 6px;
+  border: 1px solid transparent;
+  border-radius: var(--r-2);
+  background: transparent;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--d-1) var(--ease), color var(--d-1) var(--ease), border-color var(--d-1) var(--ease);
+}
+.rf-act svg {
+  width: 20px;
+  height: 20px;
+}
+.rf-act:hover {
+  background: var(--sel-soft);
+  color: var(--ink);
+}
+.rf-act.on {
+  background: var(--paper-pure);
+  border-color: var(--ink);
+  color: var(--ink);
+  box-shadow: var(--shadow-1);
+}
+.rf-act:focus-visible,
+.rf-chip:focus-visible,
+.rf-step:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.rf-adjust {
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: var(--r-2);
+  background: var(--paper-pure);
+  border: 1px solid var(--rule);
+  animation: rf-fold var(--d-2) var(--ease-out);
+}
+@keyframes rf-fold {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+}
+.rf-adjust-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.rf-summary {
+  font-weight: 450;
+  font-size: 11px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rf-slider {
+  display: grid;
+  grid-template-columns: auto 1fr 42px;
+  align-items: center;
+  gap: 8px;
+}
+.rf-slider-label {
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.rf-val {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.rf-slider input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 18px;
+  background: transparent;
+  margin: 0;
+  cursor: pointer;
+}
+.rf-slider input[type="range"]::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--ink) var(--p, 50%), var(--rule) var(--p, 50%));
+}
+.rf-slider input[type="range"]::-moz-range-track {
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--ink) var(--p, 50%), var(--rule) var(--p, 50%));
+}
+.rf-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5.5px;
+  border-radius: 999px;
+  background: var(--paper-pure);
+  border: 1.5px solid var(--ink);
+  box-shadow: 0 1px 3px rgba(11, 12, 14, 0.18);
+}
+.rf-slider input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--paper-pure);
+  border: 1.5px solid var(--ink);
+}
+
+.rf-steps {
+  display: flex;
+  gap: 4px;
+}
+.rf-step {
+  flex: 1;
+  height: 26px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  background: var(--paper-lift);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background var(--d-1) var(--ease), color var(--d-1) var(--ease), border-color var(--d-1) var(--ease);
+}
+.rf-step:hover {
+  color: var(--ink);
+  border-color: var(--rule-strong);
+}
+.rf-step.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-pure);
+}
+
+.rf-note {
+  margin: 8px 0 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ink-3);
+}
+.rf-note.warn {
+  color: var(--accent);
+}
+
+.rf-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 10px;
+}
+.rf-cancel,
+.rf-apply {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 8px 0 10px;
+  border-radius: var(--r-1);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.rf-cancel {
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink-2);
+}
+.rf-cancel:hover {
+  color: var(--ink);
+}
+.rf-apply {
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper-pure);
+}
+.rf-apply .kbd {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.rf-ai {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--rule-strong);
+}
+.rf-ai .label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--accent);
+}
+.rf-ai .label svg {
+  width: 13px;
+  height: 13px;
+}
+.rf-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 7px;
+}
+.rf-chip {
+  height: 26px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 77, 31, 0.28);
+  background: var(--accent-soft);
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background var(--d-1) var(--ease), border-color var(--d-1) var(--ease), transform var(--d-1) var(--ease);
+}
+.rf-chip:hover {
+  background: rgba(255, 77, 31, 0.16);
+  border-color: var(--accent);
+}
+.rf-chip:active {
+  transform: scale(0.97);
+}

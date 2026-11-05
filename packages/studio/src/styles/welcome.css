@@ -1,0 +1,209 @@
+/* Welcome / start screen on an empty document (panels/Welcome.tsx). */
+.wl {
+  pointer-events: auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  transform-origin: center center;
+}
+.wl-head {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: wl-rise 0.6s var(--ease-out) backwards;
+}
+.wl-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+.wl-sub {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 13px;
+  max-width: 420px;
+}
+
+.wl-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+.wl-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  padding: 6px 6px 10px;
+  border-radius: var(--r-3);
+  border: 1px solid var(--rule);
+  background: var(--paper-lift);
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--d-2) var(--ease-out), box-shadow var(--d-2) var(--ease-out), border-color var(--d-1) var(--ease);
+  animation: wl-rise 0.55s var(--ease-out) backwards;
+}
+.wl-art {
+  display: block;
+  height: 76px;
+  border-radius: var(--r-2);
+  background: var(--paper-pure);
+  box-shadow: inset 0 0 0 1px rgba(11, 12, 14, 0.04);
+  margin-bottom: 7px;
+  overflow: hidden;
+}
+.wl-art svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: transform var(--d-3) var(--ease-out);
+}
+.wl-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  padding: 0 4px;
+}
+.wl-hint {
+  font-size: 11.5px;
+  color: var(--ink-2);
+  padding: 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wl-card:hover {
+  border-color: var(--rule-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-1);
+}
+.wl-card:hover .wl-art svg {
+  transform: scale(1.06);
+}
+.wl-card:active {
+  transform: translateY(0) scale(0.985);
+  box-shadow: none;
+}
+
+.wl-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: wl-rise 0.6s var(--ease-out) 0.32s backwards;
+}
+.wl-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 32px;
+  padding: 0 12px 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: var(--paper-pure);
+  color: var(--ink);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--d-1) var(--ease), background var(--d-1) var(--ease), transform var(--d-1) var(--ease);
+}
+.wl-action svg {
+  width: 16px;
+  height: 16px;
+  color: var(--ink-2);
+}
+.wl-action .kbd {
+  margin-left: 2px;
+}
+.wl-action:hover {
+  border-color: var(--rule-strong);
+  background: var(--paper-lift);
+}
+.wl-action:active {
+  transform: translateY(0.5px);
+}
+
+.wl-foot {
+  color: var(--ink-2);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  animation: wl-rise 0.6s var(--ease-out) 0.4s backwards;
+}
+.wl-link {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--ink);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--d-1) var(--ease);
+}
+.wl-link:hover {
+  text-decoration-color: var(--ink);
+}
+
+/* While the AI works on the first draft */
+.wl-drafting {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--paper-pure);
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-1);
+  color: var(--ink-2);
+  font-size: 12.5px;
+  animation: wl-rise 0.4s var(--ease-out) backwards;
+}
+.wl-pencil {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 var(--accent-soft);
+  animation: wl-pulse 1.4s var(--ease) infinite;
+}
+
+@keyframes wl-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes wl-pulse {
+  50% {
+    box-shadow: 0 0 0 6px var(--accent-soft);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wl-head,
+  .wl-card,
+  .wl-actions,
+  .wl-foot,
+  .wl-drafting,
+  .wl-pencil {
+    animation: none;
+  }
+  .wl-card,
+  .wl-card:hover,
+  .wl-card:hover .wl-art svg {
+    transform: none;
+  }
+}

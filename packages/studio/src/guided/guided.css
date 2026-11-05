@@ -1,0 +1,488 @@
+/* Guided start on the welcome screen (guided/GuidedStart.tsx). */
+.wl-guided {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  margin-top: 6px;
+  padding: 0 6px 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper-pure);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--d-1) var(--ease),
+    transform var(--d-1) var(--ease);
+}
+.wl-guided .wl-guided-n {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.62);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.wl-guided:hover {
+  background: #1d1f22;
+}
+.wl-guided:active {
+  transform: translateY(0.5px);
+}
+.wl-guided:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.gs {
+  position: relative;
+  width: 560px;
+  min-height: 430px;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper-pure);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+  animation: gs-in 0.45s var(--ease-out) backwards;
+  text-align: left;
+}
+.gs-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 12px 14px 22px;
+  border-bottom: 1px solid var(--rule);
+}
+.gs-steps {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.gs-steps li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.gs-steps li + li::before {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: var(--rule-strong);
+}
+.gs-steps button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  background: none;
+  padding: 3px 6px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+.gs-steps button:disabled {
+  cursor: default;
+}
+.gs-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 10.5px;
+  font-weight: 600;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink-3);
+  transition:
+    background var(--d-2) var(--ease),
+    border-color var(--d-2) var(--ease),
+    color var(--d-2) var(--ease);
+}
+.gs-dot svg {
+  width: 11px;
+  height: 11px;
+  stroke-width: 2;
+}
+.gs-steps li.on button {
+  color: var(--ink);
+  font-weight: 500;
+}
+.gs-steps li.on .gs-dot {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-pure);
+}
+.gs-steps li.done .gs-dot {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.gs-steps li.done button:hover {
+  color: var(--ink);
+}
+.gs-x svg {
+  width: 14px;
+  height: 14px;
+}
+
+.gs-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 26px 28px 8px;
+  animation: gs-step-fwd 0.38s var(--ease-out) backwards;
+}
+.gs-body.bwd {
+  animation-name: gs-step-bwd;
+}
+.gs-q {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+.gs-help {
+  margin: -4px 0 6px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.gs-count {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  margin-left: 4px;
+}
+
+.gs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gs-field > span {
+  font-size: var(--label-size);
+  letter-spacing: var(--label-track);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.gs-field input {
+  height: 42px;
+  padding: 0 14px;
+  border-radius: var(--r-2);
+  border: 1px solid var(--rule);
+  background: var(--paper-lift);
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  outline: none;
+  transition:
+    border-color var(--d-1) var(--ease),
+    background var(--d-1) var(--ease),
+    box-shadow var(--d-1) var(--ease);
+}
+.gs-field input::placeholder {
+  color: var(--ink-4);
+}
+.gs-field input:hover {
+  border-color: var(--rule-strong);
+}
+.gs-field input:focus {
+  border-color: var(--ink);
+  background: var(--paper-pure);
+  box-shadow: 0 0 0 3px var(--sel-soft);
+}
+
+.gs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.gs-chips.feel {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.gs-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: var(--r-2);
+  border: 1px solid var(--rule);
+  background: var(--paper-lift);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    border-color var(--d-1) var(--ease),
+    background var(--d-1) var(--ease),
+    color var(--d-1) var(--ease),
+    transform var(--d-1) var(--ease);
+}
+.gs-chip:hover {
+  border-color: var(--rule-strong);
+  background: var(--paper-pure);
+}
+.gs-chip:active {
+  transform: scale(0.98);
+}
+.gs-chip.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-pure);
+}
+.gs-chip.full {
+  color: var(--ink-4);
+}
+.gs-chip:focus-visible,
+.gs-drop:focus-visible,
+.gs-thumb.add:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.gs-tick {
+  display: inline-flex;
+  animation: gs-pop 0.25s var(--ease-out);
+}
+.gs-tick svg {
+  width: 12px;
+  height: 12px;
+  stroke-width: 2;
+}
+.gs-chip.small {
+  height: 28px;
+  padding: 0 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: transparent;
+}
+.gs-chip.small.on {
+  background: var(--ink);
+}
+.gs-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--rule);
+}
+.gs-sub-label {
+  font-size: var(--label-size);
+  letter-spacing: var(--label-track);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.gs-sub-label .dim {
+  color: var(--ink-4);
+}
+
+.gs-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 170px;
+  border-radius: var(--r-3);
+  border: 1.5px dashed var(--rule-strong);
+  background: var(--paper-lift);
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    border-color var(--d-1) var(--ease),
+    background var(--d-1) var(--ease);
+}
+.gs-drop:hover,
+.gs.dropping .gs-drop {
+  border-color: var(--ink);
+  background: var(--paper-pure);
+}
+.gs-drop-icon svg {
+  width: 26px;
+  height: 26px;
+  color: var(--ink-3);
+}
+.gs-drop-title {
+  font-size: 13.5px;
+  font-weight: 500;
+}
+.gs-drop-hint {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.gs-thumbs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+.gs-thumb {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1;
+  border-radius: var(--r-2);
+  overflow: hidden;
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px rgba(11, 12, 14, 0.06);
+  animation: gs-pop 0.3s var(--ease-out) backwards;
+}
+.gs-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gs-thumb button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(11, 12, 14, 0.72);
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--d-1) var(--ease);
+}
+.gs-thumb button svg {
+  width: 10px;
+  height: 10px;
+}
+.gs-thumb:hover button,
+.gs-thumb button:focus-visible {
+  opacity: 1;
+}
+.gs-thumb.loading {
+  background: linear-gradient(100deg, var(--paper) 30%, var(--paper-lift) 50%, var(--paper) 70%) 0 0 / 200% 100%;
+  animation: gs-shimmer 1.1s linear infinite;
+}
+.gs-thumb.add {
+  border: 1.5px dashed var(--rule-strong);
+  background: transparent;
+  box-shadow: none;
+  display: grid;
+  place-items: center;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition:
+    border-color var(--d-1) var(--ease),
+    color var(--d-1) var(--ease);
+}
+.gs-thumb.add:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.gs-thumb.add svg {
+  width: 16px;
+  height: 16px;
+}
+.gs-note {
+  margin: 0;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.gs-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px 16px;
+}
+.gs-foot .grow {
+  flex: 1;
+}
+.gs-hint {
+  font-size: 11.5px;
+  color: var(--ink-3);
+  margin-right: 6px;
+}
+.gs-foot .btn.primary {
+  gap: 8px;
+  padding: 0 14px 0 16px;
+}
+.gs-foot .btn.primary svg {
+  width: 14px;
+  height: 14px;
+}
+.gs-arrow {
+  transition: transform var(--d-2) var(--ease-out);
+}
+.gs-foot .btn.primary:not(:disabled):hover .gs-arrow {
+  transform: translateX(2px);
+}
+.gs-dropping {
+  position: absolute;
+  inset: 8px;
+  border-radius: 14px;
+  border: 1.5px dashed var(--ink);
+  background: rgba(255, 255, 255, 0.86);
+  display: grid;
+  place-items: center;
+  font-size: 13.5px;
+  font-weight: 500;
+  pointer-events: none;
+  animation: gs-fade 0.15s var(--ease);
+}
+
+@keyframes gs-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+}
+@keyframes gs-step-fwd {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+}
+@keyframes gs-step-bwd {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+}
+@keyframes gs-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+@keyframes gs-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes gs-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gs,
+  .gs-body,
+  .gs-tick,
+  .gs-thumb,
+  .gs-dropping {
+    animation: none;
+  }
+}

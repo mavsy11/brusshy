@@ -1,0 +1,28 @@
+{
+  "name": "@brusshy/shapes",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "Parametric logo shapes and a curated open-license symbol set for Brusshy.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p . --noEmit",
+    "test": "vitest run",
+    "icons": "node scripts/build-icons.mjs"
+  },
+  "devDependencies": {
+    "@phosphor-icons/core": "^2.1.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  },
+  "dependencies": {
+    "@brusshy/core": "^0.1.0",
+    "@countertype/clipper2-ts": "^1.5.4",
+    "svgpath": "^2.6.0"
+  }
+}

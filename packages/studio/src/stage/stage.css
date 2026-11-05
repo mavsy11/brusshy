@@ -1,0 +1,149 @@
+/* Stage view (stage/Stage.tsx): the logo alone, for screen recording. */
+.stage-view {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  overflow: hidden;
+  contain: strict;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.stage-view.idle,
+.stage-view.idle * {
+  cursor: none;
+}
+.stage-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition:
+    opacity 0.45s var(--ease),
+    background-color 0.6s var(--ease);
+}
+.stage-view.in .stage-bg {
+  opacity: 1;
+}
+.stage-view.out .stage-bg {
+  opacity: 0;
+  transition-duration: 0.5s;
+}
+.stage-art {
+  position: absolute;
+  overflow: visible;
+  transform-origin: 0 0;
+  will-change: transform;
+  pointer-events: none;
+}
+/* the canvas' hover/selection hit areas never paint here */
+.stage-art .frame-hit {
+  fill: none;
+}
+
+/* ←/→ between versions: a soft slide and cross-fade */
+.stage-swap {
+  position: absolute;
+  inset: 0;
+}
+.stage-swap[data-dir="right"] {
+  animation: stage-in-right 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.stage-swap[data-dir="left"] {
+  animation: stage-in-left 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.stage-art.swap-out {
+  animation: stage-out-left 0.42s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.stage-art.swap-out.right {
+  animation-name: stage-out-right;
+}
+@keyframes stage-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(3.5vw);
+  }
+}
+@keyframes stage-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-3.5vw);
+  }
+}
+@keyframes stage-out-left {
+  to {
+    opacity: 0;
+    transform: translateX(-3.5vw);
+  }
+}
+@keyframes stage-out-right {
+  to {
+    opacity: 0;
+    transform: translateX(3.5vw);
+  }
+}
+
+/* Short-lived caption: the keys on entry, the background name on B. */
+.stage-caption {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 18px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(11, 12, 14, 0.06);
+  color: rgba(11, 12, 14, 0.6);
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: stage-caption 2.6s var(--ease) both;
+}
+.stage-view.dark .stage-caption {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.66);
+}
+.stage-caption span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.stage-caption kbd {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  min-width: 18px;
+  text-align: center;
+  padding: 0 5px;
+  line-height: 17px;
+  border-radius: 5px;
+  border: 1px solid currentColor;
+  opacity: 0.8;
+}
+.stage-caption.short {
+  animation-duration: 1.1s;
+}
+@keyframes stage-caption {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+  12%,
+  78% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage-swap[data-dir],
+  .stage-art.swap-out {
+    animation: none;
+  }
+  .stage-art.swap-out {
+    display: none;
+  }
+  .stage-bg {
+    transition: none;
+  }
+}

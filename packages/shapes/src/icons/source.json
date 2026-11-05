@@ -1,0 +1,13 @@
+{
+  "name": "Phosphor Icons",
+  "package": "@phosphor-icons/core",
+  "version": "2.1.1",
+  "license": "MIT",
+  "url": "https://phosphoricons.com",
+  "count": 1432,
+  "weights": [
+    "fill",
+    "bold"
+  ],
+  "viewBox": 256
+}

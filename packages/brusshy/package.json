@@ -1,0 +1,60 @@
+{
+  "name": "brusshy",
+  "version": "0.1.1",
+  "description": "AI logo studio: your own AI designs vector + 3D logos on a local canvas.",
+  "type": "module",
+  "author": "mavsy11",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mavsy11/brusshy.git",
+    "directory": "packages/brusshy"
+  },
+  "homepage": "https://github.com/mavsy11/brusshy#readme",
+  "bugs": {
+    "url": "https://github.com/mavsy11/brusshy/issues"
+  },
+  "bin": {
+    "brusshy": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup && node scripts/copy-studio.mjs",
+    "dev:daemon": "tsx src/cli.ts start --no-open --dev",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/ws": "^8.18.2",
+    "tsup": "^9.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5",
+    "@brusshy/core": "^0.1.0",
+    "@brusshy/shapes": "^0.1.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "@resvg/resvg-js": "^2.6.2",
+    "woff2-encoder": "^2.0.0",
+    "ws": "^8.22.0",
+    "zod": "^4.6.7"
+  },
+  "keywords": [
+    "logo",
+    "design",
+    "ai",
+    "mcp",
+    "claude",
+    "svg",
+    "3d",
+    "three.js"
+  ]
+}

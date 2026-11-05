@@ -1,0 +1,272 @@
+/* Compare versions: before/after takeover of the stage. */
+
+.cmp {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--paper);
+  background-image: radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0);
+  background-size: 26px 26px;
+  animation: fade-in var(--d-2) var(--ease);
+}
+
+.cmp-bar {
+  position: relative;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 6px 6px 14px;
+  border-radius: var(--r-3);
+  max-width: calc(100vw - 32px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cmp-pair {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cmp-select {
+  height: 30px;
+  padding: 0 26px 0 10px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  background: var(--paper-pure)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238e9599' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat right 9px center;
+  appearance: none;
+  font: 500 12.5px var(--font);
+  color: var(--ink);
+  cursor: pointer;
+}
+.cmp-select:hover {
+  border-color: var(--rule-strong);
+}
+.cmp-swap svg {
+  width: 15px;
+  height: 15px;
+}
+.cmp-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--rule);
+}
+.cmp-modes {
+  display: flex;
+  gap: 2px;
+}
+.cmp-modes .seg {
+  height: 30px;
+  font-size: 12.5px;
+}
+.cmp-opacity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cmp-opacity input {
+  width: 96px;
+}
+.cmp-opacity .num {
+  width: 34px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-2);
+}
+.cmp-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink-2);
+  cursor: pointer;
+  user-select: none;
+  padding: 0 4px;
+}
+.cmp-toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.cmp-toggle i {
+  position: relative;
+  width: 26px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--rule-strong);
+  transition: background var(--d-1) var(--ease);
+}
+.cmp-toggle i::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--paper-pure);
+  box-shadow: 0 1px 2px rgba(11, 12, 14, 0.2);
+  transition: transform var(--d-2) var(--ease-out);
+}
+.cmp-toggle.on {
+  color: var(--ink);
+}
+.cmp-toggle.on i {
+  background: var(--accent);
+}
+.cmp-toggle.on i::after {
+  transform: translateX(10px);
+}
+.cmp-toggle input:focus-visible + i {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.cmp-close {
+  font-size: 20px;
+}
+
+.cmp-area {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px 32px;
+  box-sizing: border-box;
+}
+.cmp-missing {
+  margin-top: 30vh;
+}
+
+.cmp-stage {
+  position: relative;
+  box-shadow: var(--sheet-shadow);
+  user-select: none;
+  touch-action: none;
+}
+.cmp-stage.splittable {
+  cursor: ew-resize;
+}
+.cmp-layer {
+  position: absolute;
+  inset: 0;
+}
+.cmp-layer canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.cmp-img {
+  transition: opacity var(--d-2) var(--ease);
+}
+.cmp.diffing .cmp-img {
+  opacity: 0.28;
+}
+/* The mask is symmetric: show it over the before version only. */
+.cmp.diffing .cmp-img ~ .cmp-img,
+.cmp.diffing .cmp-handle {
+  opacity: 0;
+}
+.cmp-diff {
+  pointer-events: none;
+  animation: fade-in var(--d-2) var(--ease);
+}
+
+.cmp-handle {
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  width: 0;
+  pointer-events: none;
+}
+.cmp-handle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -0.75px;
+  width: 1.5px;
+  background: var(--ink);
+}
+.cmp-grip {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: var(--paper-pure);
+  box-shadow: 0 2px 10px rgba(11, 12, 14, 0.25);
+  transition: transform var(--d-1) var(--ease);
+}
+.cmp-stage.dragging .cmp-grip {
+  transform: scale(1.08);
+}
+.cmp-grip svg {
+  width: 16px;
+  height: 16px;
+}
+
+.cmp-tag {
+  position: absolute;
+  top: -30px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.cmp-tag.left {
+  left: 0;
+}
+.cmp-tag.right {
+  right: 0;
+}
+.cmp-over {
+  color: var(--ink-3);
+  font-weight: 400;
+}
+
+.cmp-side {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+.cmp-pane {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+.cmp-pane figcaption {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.cmp-foot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 0 18px;
+  min-height: 22px;
+}
+.cmp-stat {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+}

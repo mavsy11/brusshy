@@ -1,0 +1,327 @@
+@import "./tokens.css";
+
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  user-select: none;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+::selection {
+  background: var(--accent-soft);
+}
+
+/* ---------- shell ---------- */
+.app {
+  position: fixed;
+  inset: 0;
+}
+.panel {
+  position: absolute;
+  background: var(--panel-bg);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--r-3);
+  box-shadow: var(--shadow-1);
+  z-index: 20;
+}
+
+.label {
+  font-size: var(--label-size);
+  letter-spacing: var(--label-track);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: var(--r-2);
+  border: 1px solid var(--rule);
+  background: var(--paper-pure);
+  color: var(--ink);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--d-1) var(--ease), border-color var(--d-1) var(--ease), transform var(--d-1) var(--ease);
+  white-space: nowrap;
+}
+.btn:hover {
+  border-color: var(--rule-strong);
+}
+.btn:active {
+  transform: translateY(0.5px);
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.btn.primary {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-pure);
+}
+.btn.primary:hover {
+  background: #1d1f22;
+}
+.btn.ghost {
+  background: transparent;
+  border-color: transparent;
+}
+.btn.ghost:hover {
+  background: var(--sel-soft);
+}
+.btn.small {
+  height: 26px;
+  padding: 0 9px;
+  font-size: 12px;
+}
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-2);
+  border: 0;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: background var(--d-1) var(--ease), color var(--d-1) var(--ease);
+  position: relative;
+}
+.icon-btn:hover {
+  background: var(--sel-soft);
+  color: var(--ink);
+}
+.icon-btn.active {
+  background: var(--ink);
+  color: var(--paper-pure);
+}
+.icon-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.icon-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---------- form controls ---------- */
+.field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: var(--r-1);
+  background: var(--paper-pure);
+  border: 1px solid var(--rule);
+  min-width: 0;
+  transition: border-color var(--d-1) var(--ease);
+}
+.field:focus-within {
+  border-color: var(--ink-3);
+}
+.field > span {
+  color: var(--ink-3);
+  font-size: 11px;
+  flex: none;
+  min-width: 10px;
+}
+.field input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  width: 100%;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+.select {
+  height: 28px;
+  border-radius: var(--r-1);
+  border: 1px solid var(--rule);
+  background: var(--paper-pure);
+  padding: 0 6px;
+  font-size: 12px;
+  width: 100%;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 12.5px;
+}
+.check input {
+  accent-color: var(--ink);
+  width: 14px;
+  height: 14px;
+}
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--ink);
+}
+.swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid var(--rule-strong);
+  flex: none;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, #e8eaeb 25%, transparent 25%), linear-gradient(-45deg, #e8eaeb 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e8eaeb 75%), linear-gradient(-45deg, transparent 75%, #e8eaeb 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+}
+.swatch > i {
+  position: absolute;
+  inset: 0;
+}
+.swatch input[type="color"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* ---------- toasts ---------- */
+.toasts {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  z-index: 100;
+  pointer-events: none;
+}
+.toast {
+  background: var(--ink);
+  color: var(--paper-pure);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 12.5px;
+  box-shadow: var(--shadow-2);
+  animation: toast-in var(--d-3) var(--ease-out);
+}
+.toast.error {
+  background: #b3261e;
+}
+.toast.agent {
+  background: var(--paper-pure);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+/* ---------- modal ---------- */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(244, 245, 245, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  animation: fade-in var(--d-2) var(--ease);
+}
+.modal {
+  background: var(--paper-lift);
+  border: 1px solid var(--panel-border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-2);
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100vh - 64px);
+  overflow: auto;
+  animation: modal-in var(--d-3) var(--ease-out);
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+}
+
+.kbd {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+  border: 1px solid var(--rule);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  padding: 0 5px;
+  line-height: 16px;
+  background: var(--paper-pure);
+}
+
+.scroll-y {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule-strong) transparent;
+}
+
+/* Shown when the studio is opened without its token (main.tsx). */
+.no-token {
+  max-width: 440px;
+  margin: 18vh auto 0;
+  padding: 0 16px;
+  font-family: var(--font, system-ui, sans-serif);
+  color: var(--ink);
+}
+.no-token h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+.no-token p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.no-token code {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  background: var(--paper);
+  padding: 1px 6px;
+  border-radius: 6px;
+}

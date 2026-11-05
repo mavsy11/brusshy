@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Brusshy — design logos with your own AI</title>
+    <meta name="description" content="A local drafting-table canvas your AI draws on while you watch. Sketch, point, refine — vector-perfect in 2D, premium in 3D. Free to run: your AI, your tokens, your files." />
+    <meta property="og:title" content="Brusshy — design logos with your own AI" />
+    <meta property="og:description" content="Run npx brusshy. Your AI designs the logo on a canvas you can sketch on, point at and refine. Export SVG, PNG, favicons, 3D renders and a brand kit." />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="#">
+        <img src="favicon.svg" width="28" height="28" alt="" />
+        <img class="brand-word" src="wordmark.svg" alt="Brusshy" height="20" />
+      </a>
+      <nav>
+        <a href="#how">How it works</a>
+        <a href="#3d">3D</a>
+        <a href="#export">Export</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com/mavsy11/brusshy" aria-label="Brusshy on GitHub">GitHub</a>
+      </nav>
+      <button class="cmd small" data-copy="npx brusshy"><code>npx brusshy</code><span>Copy</span></button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="grid-bg" aria-hidden="true"></div>
+        <p class="eyebrow">AI logo studio · local-first</p>
+        <h1>Design logos with<br />your own AI.</h1>
+        <p class="lede">A drafting-table canvas your AI draws on while you watch. Sketch the idea, point at what to change, refine by hand — vector-perfect in 2D, premium in 3D.</p>
+        <div class="cta">
+          <button class="cmd" data-copy="npx brusshy"><code>npx brusshy</code><span>Copy</span></button>
+          <span class="works">Works with Claude Code, Codex, Gemini, Grok, Cursor — any MCP client</span>
+        </div>
+
+        <figure class="stage" aria-label="The Brusshy canvas">
+          <div class="sheet">
+            <div class="sheet-label">Northwind <span>1024 × 1024</span></div>
+            <svg viewBox="0 0 1024 1024" class="logo" aria-hidden="true">
+              <g class="draw">
+                <circle cx="512" cy="450" r="250" fill="none" stroke="#0b0c0e" stroke-width="34" />
+                <path d="M512 230 L566 450 L458 450Z" fill="#ff4d1f" />
+                <path d="M512 670 L458 450 L566 450Z" fill="#0b0c0e" />
+                <circle cx="512" cy="450" r="22" fill="#fff" stroke="#0b0c0e" stroke-width="10" />
+              </g>
+              <text x="512" y="860" text-anchor="middle" font-family="Cinzel, Georgia, serif" font-weight="700" font-size="96" letter-spacing="8" fill="#0b0c0e">NORTHWIND</text>
+            </svg>
+            <div class="pin" style="left: 50%; top: 23%"><span>1</span></div>
+            <div class="note">
+              <div class="note-k">Note · on needle</div>
+              <p>Make the north tip a bit sharper</p>
+              <div class="note-reply">Sharpened the tip 12% and balanced the south half to match.</div>
+            </div>
+          </div>
+          <div class="agent"><i></i> Your AI is drawing…</div>
+        </figure>
+      </section>
+
+      <section id="how" class="how">
+        <p class="eyebrow">How it works</p>
+        <h2>Three minutes from idea to mark.</h2>
+        <ol class="steps">
+          <li>
+            <span class="n">01</span>
+            <h3>Run it in your project</h3>
+            <p><code>npx brusshy</code> opens the canvas. <code>npx brusshy init</code> connects your AI once.</p>
+          </li>
+          <li>
+            <span class="n">02</span>
+            <h3>Give it a direction</h3>
+            <p>Sketch with the brush, paste a reference to trace, drop your brand notes into <code>brusshy/brand/</code> — or just describe it: modern, rustic, 1800s, metallic.</p>
+          </li>
+          <li>
+            <span class="n">03</span>
+            <h3>Point, don't explain</h3>
+            <p>Pin a note on any curve — “rounder”, “thinner”, “more weight here”. Your AI applies it and replies. Nudge the rest by hand; it costs no tokens.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="features">
+        <div class="feature">
+          <h3>Sketch → vector</h3>
+          <p>Draw the idea in ten seconds. Your AI keeps the composition and returns clean curves, fixed symmetry and optical balance.</p>
+        </div>
+        <div class="feature">
+          <h3>Trace anything</h3>
+          <p>Paste an image, lower its opacity, draw on top. Reference layers never leave the canvas.</p>
+        </div>
+        <div class="feature">
+          <h3>Pro editing when you want it</h3>
+          <p>Bézier nodes, snapping, rulers and guides, numeric precision, real shortcuts. Fast for designers, invisible for everyone else.</p>
+        </div>
+        <div class="feature">
+          <h3>Your AI sees its work</h3>
+          <p>Every change is rendered back to the agent — including a 16 px check — so it iterates until the mark actually holds up.</p>
+        </div>
+      </section>
+
+      <section id="3d" class="three">
+        <div>
+          <p class="eyebrow">2D and 3D, one source</p>
+          <h2>The premium 3D look, one click away.</h2>
+          <p>Rendered in Brusshy from one vector. The same mark extrudes into glass, chrome, gold, neon, porcelain or stone — with studio lighting, bevels and soft shadows already tuned. Change a curve in 2D and the 3D follows.</p>
+          <ul class="chips">
+            <li>Frosted glass</li>
+            <li>Chrome</li>
+            <li>Gilded</li>
+            <li>Neon sign</li>
+            <li>Porcelain</li>
+            <li>Holographic</li>
+            <li>Brushed metal</li>
+            <li>Monument</li>
+          </ul>
+        </div>
+        <div class="renders">
+          <figure><img src="renders/frosted.jpg" alt="Compass logo in frosted glass" loading="lazy" /><figcaption>Frosted glass</figcaption></figure>
+          <figure><img src="renders/chrome.jpg" alt="Compass logo in chrome" loading="lazy" /><figcaption>Chrome</figcaption></figure>
+          <figure><img src="renders/gilded.jpg" alt="Compass logo in gold" loading="lazy" /><figcaption>Gilded</figcaption></figure>
+          <figure><img src="renders/neon-sign.jpg" alt="Compass logo as a neon sign" loading="lazy" /><figcaption>Neon sign</figcaption></figure>
+          <figure><img src="renders/porcelain.jpg" alt="Compass logo in porcelain" loading="lazy" /><figcaption>Porcelain</figcaption></figure>
+          <figure><img src="renders/holo.jpg" alt="Compass logo, holographic" loading="lazy" /><figcaption>Holographic</figcaption></figure>
+        </div>
+      </section>
+
+      <section id="export" class="export">
+        <p class="eyebrow">Export</p>
+        <h2>Everything you ship, in one pass.</h2>
+        <div class="formats">
+          <div><strong>SVG</strong><span>Text outlined, no font dependencies</span></div>
+          <div><strong>PNG</strong><span>Any size up to 8K, transparent</span></div>
+          <div><strong>Monochrome</strong><span>Black & white with knockouts</span></div>
+          <div><strong>Icon kit</strong><span>favicon.ico, app icons, manifest</span></div>
+          <div><strong>3D renders</strong><span>Up to 4K, transparent</span></div>
+          <div><strong>GLB</strong><span>The 3D model for web & apps</span></div>
+          <div><strong>Turntable</strong><span>MP4 video of the 3D mark</span></div>
+          <div><strong>Brand kit</strong><span>PDF: variants, clear space, palette, type</span></div>
+        </div>
+      </section>
+
+      <section id="faq" class="faq">
+        <p class="eyebrow">FAQ</p>
+        <h2>Questions.</h2>
+        <details>
+          <summary>Does it cost anything to run?</summary>
+          <p>Brusshy runs on your machine and uses your own AI client and plan. There is no server, account or AI bill from us.</p>
+        </details>
+        <details>
+          <summary>Which AI does it work with?</summary>
+          <p>Anything that speaks MCP: Claude Code, Codex, Gemini, Grok, Cursor, Windsurf and more. <code>npx brusshy init</code> writes the config for you.</p>
+        </details>
+        <details>
+          <summary>Where are my files?</summary>
+          <p>In a <code>brusshy/</code> folder inside your project: the logos, your references, your brand notes and every export. Nothing is uploaded.</p>
+        </details>
+        <details>
+          <summary>Can I copy another brand's logo?</summary>
+          <p>No — and the 3D presets don't ship anyone's logo. They capture premium <em>looks</em> (glass, chrome, gold) that you apply to your own mark.</p>
+        </details>
+      </section>
+
+      <section class="final">
+        <h2>Start with an idea.</h2>
+        <button class="cmd" data-copy="npx brusshy"><code>npx brusshy</code><span>Copy</span></button>
+      </section>
+    </main>
+
+    <footer>
+      <span>Brusshy · <a href="https://github.com/mavsy11/brusshy" aria-label="Brusshy on GitHub">GitHub</a> · <a href="https://www.npmjs.com/package/brusshy" aria-label="Brusshy on npm">npm</a></span>
+      <span class="dim">Made for people who care how a mark feels at 16 px.</span>
+    </footer>
+
+    <script>
+      for (const b of document.querySelectorAll("[data-copy]")) {
+        b.addEventListener("click", async () => {
+          const label = b.querySelector("span");
+          try {
+            await navigator.clipboard.writeText(b.dataset.copy);
+            label.textContent = "Copied";
+          } catch {
+            label.textContent = "Select & copy";
+          }
+          setTimeout(() => (label.textContent = "Copy"), 1400);
+        });
+      }
+    </script>
+  </body>
+</html>

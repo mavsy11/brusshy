@@ -1,0 +1,281 @@
+/* Design tab: group bar, collapsible sections, pinned basics.
+   Spacing scale: 4 · 8 · 12 · 14 (section inset) · 16. */
+
+/* ---------- collapsible section header ---------- */
+.section-head {
+  gap: 8px;
+}
+.section-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  min-height: 20px;
+  margin: -2px -4px;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--d-1) var(--ease), color var(--d-1) var(--ease);
+}
+.section-toggle .label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--d-1) var(--ease);
+}
+.section-toggle:hover .label,
+.section-toggle:focus-visible .label {
+  color: var(--ink);
+}
+/* The chevron hangs in the section's left gutter, so headers keep their full width. */
+.section-toggle {
+  position: relative;
+}
+.section-chev {
+  position: absolute;
+  left: -9px;
+  top: 50%;
+  margin-top: -5px;
+  width: 10px;
+  height: 10px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--ink-4);
+  opacity: 0;
+  transition: transform var(--d-2) var(--ease-out), opacity var(--d-1) var(--ease), color var(--d-1) var(--ease);
+}
+.section-toggle:hover .section-chev,
+.section-toggle:focus-visible .section-chev,
+.section.folded .section-chev {
+  opacity: 1;
+}
+.section-toggle:hover .section-chev {
+  color: var(--ink-2);
+}
+.section.folded .section-chev {
+  transform: rotate(-90deg);
+}
+.section.folded .section-toggle:not(:hover) .section-chev {
+  color: var(--ink-4);
+}
+/* A folded section is a single calm row. */
+.side-panel .section.folded {
+  padding-top: 11px;
+  padding-bottom: 11px;
+}
+.section.folded .label {
+  color: var(--ink-3);
+}
+
+/* ---------- pinned basics (version / layer) ---------- */
+.dg-head-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-right: -6px;
+}
+.icon-btn.small.dg-delete {
+  width: 26px;
+  height: 26px;
+  color: var(--ink-3);
+}
+.icon-btn.small.dg-delete svg {
+  width: 14px;
+  height: 14px;
+}
+.icon-btn.small.dg-delete:hover {
+  color: #b3261e;
+  background: rgba(179, 38, 30, 0.08);
+}
+.versions.many {
+  max-height: 212px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin-right: -6px;
+  padding-right: 6px;
+}
+
+/* ---------- group bar (sticky segmented control) ---------- */
+.dg-sentinel {
+  height: 0;
+}
+.dg-bar-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  padding: 10px 12px;
+  background: var(--paper-lift);
+  border-bottom: 1px solid var(--rule);
+}
+.dg-bar {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--dg-n, 4), 1fr);
+  padding: 2px;
+  border-radius: 8px;
+  background: rgba(11, 12, 14, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(11, 12, 14, 0.04);
+}
+.dg-thumb {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  width: calc((100% - 4px) / var(--dg-n, 4));
+  transform: translateX(calc(var(--dg-i, 0) * 100%));
+  border-radius: 6px;
+  background: var(--paper-pure);
+  box-shadow: 0 0 0 0.5px rgba(11, 12, 14, 0.1), 0 1px 2px rgba(11, 12, 14, 0.08), 0 2px 6px -2px rgba(11, 12, 14, 0.08);
+  transition: transform var(--d-3) var(--ease-out);
+  pointer-events: none;
+}
+.dg-seg {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 26px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--d-1) var(--ease);
+}
+.dg-seg:hover {
+  color: var(--ink);
+}
+.dg-seg.on {
+  color: var(--ink);
+}
+.dg-seg:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.dg-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ink-4);
+  flex: none;
+}
+.dg-seg.on .dg-dot {
+  background: var(--ink-2);
+}
+.dg-dot.accent,
+.dg-seg.on .dg-dot.accent {
+  background: var(--accent);
+}
+
+/* ---------- group panel ---------- */
+.dg-panel > .section:last-child {
+  border-bottom: 0;
+}
+.dg-scope {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 11.5px;
+  color: var(--ink-3);
+  background: rgba(11, 12, 14, 0.02);
+}
+.dg-scope b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.dg-scope-btn {
+  border: 0;
+  background: transparent;
+  padding: 2px 4px;
+  margin: -2px -4px;
+  border-radius: 5px;
+  font: inherit;
+  font-size: 11.5px;
+  color: var(--ink-2);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--ink-4);
+  text-underline-offset: 2px;
+}
+.dg-scope-btn:hover {
+  color: var(--ink);
+  text-decoration-color: var(--ink-2);
+}
+.dg-empty {
+  padding: 14px;
+}
+
+/* Parts list (whole version selected → Design) */
+.dg-parts {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.dg-part {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 9px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--d-1) var(--ease);
+}
+.dg-part:hover {
+  background: var(--sel-soft);
+}
+.dg-part.hidden {
+  color: var(--ink-3);
+}
+.dg-part-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dg-part .dim {
+  flex: none;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+/* Lockup: the calm one-liner when it doesn't apply yet */
+.lk-quiet {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dg-thumb,
+  .section-chev {
+    transition: none;
+  }
+}
+
+/* Revealed sections land below the sticky group bar, not under it. */
+.dg-panel > .section {
+  scroll-margin-top: 52px;
+}
