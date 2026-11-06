@@ -59,6 +59,8 @@ You choose where to chat. The chat box on the canvas runs Claude Code for you, a
 
 ## 5. Design
 
+Your AI opens a blank canvas in your browser if the studio isn't open yet. You watch the logo appear live and can edit it by hand at any point.
+
 Ask your AI, in its chat or in the studio's chat box at the bottom of the canvas:
 
 > Design a logo for **Northwind**, a specialty coffee roaster. Modern and warm, not rustic. Must work as an app icon and a 16 px favicon.

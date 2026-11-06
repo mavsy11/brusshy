@@ -10,6 +10,8 @@ npx brusshy init                    # connect your AI to the canvas (once per pr
 npx brusshy                         # open the studio for this folder
 ```
 
+Your AI opens a blank canvas in your browser when it starts. You watch the logo appear live and can edit it by hand at any point.
+
 - **Your AI draws, you direct** — sketch, trace, pin notes on exact parts, lock what you love, chat from the canvas.
 - **Craft tools** — construction grids and shape builder, exact repeats, refine, Type Lab (axes, OpenType, warp, effects), shapes library, local vectorizer for sketches and photos.
 - **Proof, not vibes** — critique scores, 16 px checks, lockup metrics, contrast, mockups, compare.
