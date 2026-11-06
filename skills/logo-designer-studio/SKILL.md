@@ -1,5 +1,5 @@
 ---
-name: brusshy-logo-design
+name: logo-designer-studio
 description: Logo design skill and logo maker. Design logos, wordmarks, monograms, icons and brand identities like a senior identity designer, on the Brusshy studio (a local canvas your AI draws on through MCP). Every logo is an editable SVG vector. Use whenever the user asks to create, generate, redesign, refine, critique or extend a logo, icon, monogram, wordmark, favicon, app icon, brand kit or small brand system, or mentions Brusshy, its canvas, versions, notes or exports. Also use for general SVG illustration work done in Brusshy.
 ---
 

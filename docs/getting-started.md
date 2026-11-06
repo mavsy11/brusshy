@@ -70,6 +70,6 @@ Then:
 
 ## Next
 
-- [Prompts that work](../skills/brusshy-logo-design/references/prompts.md)
+- [Prompts that work](../skills/logo-designer-studio/references/prompts.md)
 - [Vectorize a sketch, photo or object](guides/vectorize.md)
-- [The design skill for your AI](../skills/brusshy-logo-design/SKILL.md)
+- [The design skill for your AI](../skills/logo-designer-studio/SKILL.md)

@@ -40,9 +40,9 @@ Make a horizontal lockup and a version for dark backgrounds, then show it on a b
 
 ## Learn more
 
-**Docs:** [Getting started](docs/getting-started.md) · [Feature tour](docs/features.md) · [Vectorize a photo or object](docs/guides/vectorize.md) · [Prompts that work](skills/brusshy-logo-design/references/prompts.md)
+**Docs:** [Getting started](docs/getting-started.md) · [Feature tour](docs/features.md) · [Vectorize a photo or object](docs/guides/vectorize.md) · [Prompts that work](skills/logo-designer-studio/references/prompts.md)
 
-**Design skill for AI agents:** [`skills/brusshy-logo-design`](skills/brusshy-logo-design/SKILL.md) — process, techniques, craft, critique and the full tool map. Install it into your AI client with `npx skills add mavsy11/brusshy --skill brusshy-logo-design -g`.
+**Design skill for AI agents:** [`skills/logo-designer-studio`](skills/logo-designer-studio/SKILL.md) — process, techniques, craft, critique and the full tool map. Install it into your AI client with `npx skills add mavsy11/brusshy --skill logo-designer-studio -g`.
 
 License: [MIT](LICENSE) · [Third-party notices](THIRD_PARTY_NOTICES.md) · [Security](SECURITY.md) · [Contributing](CONTRIBUTING.md)
 
