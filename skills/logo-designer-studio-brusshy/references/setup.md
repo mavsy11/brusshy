@@ -29,5 +29,5 @@ Ask your AI: *"Open Brusshy and design a logo for Northwind, a coffee roaster â€
 ## Install this skill
 
 ```bash
-npx skills add mavsy11/brusshy --skill logo-designer-studio -g
+npx skills add mavsy11/brusshy --skill logo-designer-studio-brusshy -g
 ```
