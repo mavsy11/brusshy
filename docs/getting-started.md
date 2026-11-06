@@ -8,7 +8,15 @@ Brusshy is a logo studio that runs on your computer. You open a drafting-table c
 - A modern browser (Chrome, Edge, Safari 17+, Firefox)
 - An AI client that supports MCP (Claude Code recommended — the canvas chat can also run it for you)
 
-## 2. Open the studio
+## 2. Install the design skill
+
+```bash
+npx skills add mavsy11/brusshy -g
+```
+
+The skill teaches your AI how to design a logo: find the idea, draw it on a construction grid, check it at small sizes.
+
+## 3. Open the studio
 
 ```bash
 cd your-project
@@ -24,7 +32,7 @@ The studio opens at `http://localhost:4848` (next free port if busy). Everything
 | `brusshy/brand/` | Drop guidelines, palettes, old logos — your AI reads them |
 | `brusshy/exports/` | Everything you export |
 
-## 3. Connect your AI (once per project)
+## 4. Connect your AI (once per project)
 
 ```bash
 npx brusshy init
@@ -49,7 +57,7 @@ Your AI may need a different setup:
 
 You choose where to chat. The chat box on the canvas runs Claude Code for you, and it can run Codex if you connect it from the chat's menu. With any AI, you can also keep chatting in its own terminal: the canvas updates either way.
 
-## 4. Design
+## 5. Design
 
 Ask your AI, in its chat or in the studio's chat box at the bottom of the canvas:
 
@@ -64,7 +72,7 @@ Then:
 - **Write a Brief** (top bar) — your AI reads it before every design.
 - Press **⌘K** for every command.
 
-## 5. Ship it
+## 6. Ship it
 
 **Export** gives you SVG (outlined text), PNG at any size, one-color versions, favicon and app-icon kits, 3D renders, animated SVG/MP4/GIF, mockups, a brand-kit PDF, and a `brand.md` with the brand rules (including what not to do) for your AI to read.
 
